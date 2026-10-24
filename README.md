@@ -2,6 +2,10 @@
 
 # BOOKbangla
 
+BOOKbangla grew out of the template I used to write *কম্বিনেটরিকসে হাতেখড়ি*
+(*Introduction to Combinatorics*): [Part 1](https://rokomari.com/book/180324/combinatoricse-hatekhori--1st-part)
+and [Part 2](https://www.rokomari.com/book/185613/combinatoricse-hatekhori--2nd-part).
+
 Write your Bangla or Assamese book using familiar LaTeX commands, with chapter headings,
 worked examples and exercises ready to use. Built on memoir and
 [LaTeXbangla](https://github.com/Neehan/LaTeXbangla), **BOOKbangla** lets you choose
@@ -51,9 +55,7 @@ the font commands stay the same. Choose a font with ৰ and ৱ.
   design settings and memoir's commands for further customization.
 
 The example book includes the title page, contents, a complete
-pigeonhole-principle chapter, exercises and bibliography from
-[*কম্বিনেটরিকসে হাতেখড়ি*](https://rokomari.com/book/180324/combinatoricse-hatekhori--1st-part),
-the book this design was developed for.
+pigeonhole-principle chapter, exercises and bibliography from my book.
 Start with [main.tex](examples/bangla/main.tex) to write your own book.
 The manual ([English](bookbangla/bookbangla.pdf#nameddest=guide-english) /
 [বাংলা](bookbangla/bookbangla.pdf#nameddest=guide-bangla) /
