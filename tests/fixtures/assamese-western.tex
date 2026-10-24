@@ -1,0 +1,19 @@
+% Direct LaTeXbangla options must select the same class labels.
+\PassOptionsToPackage{language=assamese,changecounternumbering=false}{latexbangla}
+\documentclass[oneside,openany]{bookbangla}
+\setbanglamainfont{Kalpurush}
+\begin{document}
+\makeatletter
+\ifdefstring{\bookbangla@examplename}{উদাহৰণ}{}{%
+  \errmessage{bookbangla-test-failed: direct language option lost}}
+\makeatother
+\mainmatter
+\chapter{আৰম্ভণি}
+\begin{example}\label{as:western}এটা উদাহৰণ।\end{example}
+\autoref{as:western} চোৱা।
+\appendix
+\setcounter{chapter}{17}
+\chapter{পৰিশিষ্ট}
+\begin{exercise}\label{as:western-appendix}এটা সমস্যা।\end{exercise}
+\autoref{as:western-appendix} চোৱা।
+\end{document}

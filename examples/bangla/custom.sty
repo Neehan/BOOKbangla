@@ -1,0 +1,31 @@
+% Combinatorics notation used by this example book.
+% Copyright 2019, 2026 Adib Hasan. LPPL 1.3c or later.
+\ProvidesPackage{custom}[2026/10/24 Example-specific notation]
+\newcommand{\partof}{অংশবিশেষ}
+\newcommand{\simplified}{সরলীকৃত}
+
+% Bracket notation for factorials.
+\usetikzlibrary{calc}
+\newcommand{\oldfactorial}[1]{%
+  \tikz[baseline]{%
+    \node[anchor=base,inner sep=0.3ex] (factorialargument) {\ensuremath{#1}};
+    \draw (factorialargument.north west)--(factorialargument.south west)--
+      (factorialargument.south east);
+    \path[use as bounding box]
+      ($(factorialargument.south west)+(-0.3ex,-0.3ex)$) rectangle
+      ($(factorialargument.north east)+(0.3ex,0.3ex)$);}}
+
+% Permutation and combination notation.
+\newcommand*{\perm}[2]{{}^{#1}\!P_{#2}}
+\newcommand*{\comb}[2]{{}^{#1}\!C_{#2}}
+% Stirling numbers, in the current math style or display style.
+\DeclareRobustCommand{\stirl}{\genfrac\{\}{0pt}{}}
+\DeclareRobustCommand{\dstirl}{\genfrac\{\}{0pt}{0}}
+
+% A visible space for formal-language examples.
+\newcommand\spacesymbol[1][.3em]{%
+  \mbox{\kern.06em\vrule height.3ex}%
+  \vbox{\hrule width#1}%
+  \hbox{\vrule height.3ex}}
+
+\endinput

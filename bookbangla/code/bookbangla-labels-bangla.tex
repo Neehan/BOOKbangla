@@ -1,0 +1,18 @@
+% Bangla labels for structures introduced by BOOKbangla.
+% Copyright 2026 Adib Hasan. Part of BOOKbangla; LPPL 1.3c or later.
+% Standard chapter, section, proof and bibliography names belong to LaTeXbangla.
+
+% Reapply labels with the language's captions, including scoped switches in
+% multilingual documents. The environment definitions keep these macros live.
+\newcommand*\bookbangla@setbanglalabels{%
+  \def\bookbangla@theoremname{উপপাদ্য}%
+  \def\bookbangla@examplename{উদাহরণ}%
+  \def\bookbangla@exercisename{সমস্যা}%
+  \def\bookbangla@solutionname{সমাধান}%
+  \def\bookbangla@remarkname{মন্তব্য}%
+  \def\bookbangla@remindername{মনে রাখবে}%
+  \def\bookbangla@diyname{নিজে করো}%
+  \def\bookbangla@hintname{ইঙ্গিত}}
+\AddToHook{cmd/captionsbengali/after}{\bookbangla@setbanglalabels}
+\bookbangla@setbanglalabels
+\endinput

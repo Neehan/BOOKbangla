@@ -1,75 +1,63 @@
-# book-template
+<p align="center"><img src="bookbangla/logo.png" alt="BOOKbangla" width="320"></p>
 
-Here you can find the template files for the book *কম্বিনেটরিকসে হাতেখড়ি* (Introduction to Combinatorics)[part 1](https://rokomari.com/book/180324/combinatoricse-hatekhori--1st-part), [part 2](https://www.rokomari.com/book/185613/combinatoricse-hatekhori--2nd-part). It is the first Bengali book written with LaTeXbangla, a package I authored some years ago. I hope this repo will assist prospective authors to produce high quality Bangla books in future. 
+# BOOKbangla
 
-## Build Instructions
-**Fonts:** You'll need `SolaimanLipi`, `SiyamRupali` and `Monotype Corsiva` to build this project. They are not in the repo, as I do not have permission to redistribute them. So, download them from the internet and place the ttf files in the root directory. The file names have to be same as the names given above. (For instance, the file for Siyam Rupali must be named `SiyamRupali.ttf`)
+Write your Bangla or Assamese book using familiar LaTeX commands, with chapter headings,
+worked examples and exercises ready to use. Built on memoir and
+[LaTeXbangla](https://github.com/Neehan/LaTeXbangla), **BOOKbangla** lets you choose
+your fonts and adapt the layout to your book.
 
-**LaTeX:** You must have a LaTeX distribution installed in your system. I recommend MikTeX for Windows and TeXWorks for Linux. To build the project, run **XeLaTeX and BibTeX** on `main.tex`. In Windows, the simplest way would be to open `main.tex` with MikTeX's default Editor, called TeXworks, then hit Build with `XeLaTeX+BibTeX+MakeIndex`. 
+Try the [Overleaf demo](https://www.overleaf.com/project/6adc6a64e207c9e858a5c4ba/share#f620335030ef2a824fafcc0cfb1f6e2548f3d2154965545f)—make a copy to start your own book.
 
-## How to Use
-### File Description
-`main.tex`: The big picture.
+BOOKbangla is free to use under [LPPL 1.3c or later](LICENSE). If you use it to
+publish a book, I would appreciate an acknowledgement of BOOKbangla and its
+author, Adib Hasan. :))
 
-`bookbib.bib`: Bibliography.
+See the [example book](examples/bangla/main.pdf) and [chapter designs](examples/chapter-styles.pdf),
+or start with this short example:
 
-`bookstyle.sty`: Code for formatting.
+```latex
+\documentclass{bookbangla}
+\setbanglamainfont{Kalpurush}
+\title{আমার বই}
+\author{লেখকের নাম}
+\date{}
 
-`latexbangla.sty`: The package LaTeXbangla with more features. It is called by `bookstyle.sty`.
-
-I have extensively commented in both `bookstyle.sty` and `latexbangla.sty`. The code should be pretty easy to follow. If not, please raise an issue.
-
-### General Guidelines
-Partition your source code by chapters. Place every chapter inside `chap` directory, in its own file. Then add the chapters to `main.tex` with `\include` command. Your figures should be placed inside `img` directory and partitioned by chapters. Lastly, add your bibliography to `bookbib.bib`. 
-
-**`\parskip` and `\[...\]`:** If two consecutive blocks of text are separeted by one or more blank lines, they are considered separate paragraphs in LaTeX. In this template, the spacing between consecutive paragraphs is set to be `4pt`. This might result in some 'surprises' as demostrated by the following example:
-```
-blah blah blah
-
-\[a + b\]
-more blah more blah
-\[c + d\]
-```
-The output will look like:
-```
-blah blah blah
-
-a + b
-more blah more blah
-c + d
-```
-becase `blah blah blah` and `\[a+b\]` are rendered as separate paragraphs. This is different from "vanilla" LaTeX where the output would have been
-
-```
-blah blah blah
-a + b
-more blah more blah
-c + d
-```
-because of no spacing between paragraphs. The same behavior would be observed in all displaystyle environments, such as `equation`, `align`, `split` etc. The solution is very simple: don't put empty lines between text blocks and displaystyle environments.
-
-```
-blah blah blah
-\[a + b\]
-more blah more blah
-\[c + d\]
+\begin{document}
+\maketitle
+\mainmatter
+\chapter{শুরু}
+\begin{example}
+আটজন বন্ধুর মধ্যে অন্তত দুজনের জন্ম একই বারে কেন?
+\end{example}
+\begin{solution}
+সপ্তাহে মাত্র সাতটি বার আছে।
+\end{solution}
+\begin{exercise}[hint={বছরের মাসগুলোকে খোপ ধরো।}]
+তেরোজন মানুষের মধ্যে অন্তত দুজনের জন্ম একই মাসে, দেখাও।
+\end{exercise}
+\end{document}
 ```
 
+Compile with **XeLaTeX or LuaLaTeX**, with LaTeXbangla **2.0 or newer** installed.
+Use any suitable Bangla font; Kalpurush is just one choice.
+For an Assamese book, use `\documentclass[language=assamese]{bookbangla}`;
+the font commands stay the same. Choose a font with ৰ and ৱ.
 
-You may read the source of Pigeonhole Principle for guidance but do not blindly follow its style. See the section below.
+- Classic, modern, minimal and ruled chapter designs; memoir’s default remains available.
+- Numbered examples, theorems and problems, optional hints, solutions and reference links.
+- “নিজে করো” and “মনে রাখবে” boxes, chapter quotations and configurable lists.
+- Your choice of fonts and bibliography. Use `\bookbanglasetup` for the class's
+  design settings and memoir's commands for further customization.
 
-## FAQ
-**What is `\phpname`?**
-When I wrote Pigeonhole Principle, I was unsure if the title should be translated or transliterated. I went with transliteration at that time. I put the title inside `\phpname`, because if I ever changed my mind, I would have to update the title only at one place. **You don't need to follow this style.** 
+The example book includes the title page, contents, a complete
+pigeonhole-principle chapter, exercises and bibliography from
+[*কম্বিনেটরিকসে হাতেখড়ি*](https://rokomari.com/book/180324/combinatoricse-hatekhori--1st-part),
+the book this design was developed for.
+Start with [main.tex](examples/bangla/main.tex) to write your own book.
+The manual ([English](bookbangla/bookbangla.pdf#nameddest=guide-english) /
+[বাংলা](bookbangla/bookbangla.pdf#nameddest=guide-bangla) /
+[অসমীয়া](bookbangla/bookbangla.pdf#nameddest=guide-assamese)) explains how to customize
+your book. See [build instructions](CONTRIBUTING.md) to compile the full example.
 
-**Why are you manually controlling vertical spacing?**
-This was the final fine-tuning step after all the rewriting, proofreading, and page settings had been gone through. The content was set to stone at that point. In general, **DO NOT USE `\vspace` arbitrarily,** especially, when you are haven't finished writing a chapter. Book editors will disagree with at least one third of your first draft. Your publisher might want to change many other things, such as, font size, font type, margins etc. So, it makes no sense to spend time on style until the draft is final.
-
-**Why are you placing multiple figures in a `tabular`?**
-I am aware of the `\subbottom` command of `memoir` class, but hardly remember its name when I need it. So, I got lazy at one point and started using `tabular` instead. However, you should follow the recommended method if you can.
-
-**My figures are all over the place. Should I reposition them?**
-If you aren't done writing a chapter, don't even bother. If you are sending the manuscript to your editor, then maybe care a little, but don't fret over it. Once you are sure the content, page layout, font size etc. are not going to change, only then reposition the figures. However, don't use `[H]` option from `float` package unless you know what you are doing. It breaks too many things down the line to be useful. Either use `placeins`, or resize your figures, whichever you prefer.
-
-## License
-This work may be distributed and/or modified under the conditions of the GPL v.3. If you do write your book with it, please consider giving me credit and providing a link to this repo in the acknowledgements. This will also help the prospective authors to find this template.
+Adib Hasan · [latexbangla@googlegroups.com](mailto:latexbangla@googlegroups.com)

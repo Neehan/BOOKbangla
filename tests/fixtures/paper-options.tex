@@ -1,0 +1,24 @@
+% A smaller stock option must work before any author layout adjustments.
+\documentclass[a5paper,10pt,oneside,openany]{bookbangla}
+\setbanglamainfont{Kalpurush}
+\makeatletter
+\ifdim\f@size pt=10pt\else
+  \errmessage{bookbangla-test-failed: font-size option ignored}
+\fi
+\makeatother
+\ifdim\paperwidth=\stockwidth\else
+  \errmessage{bookbangla-test-failed: trim exceeds small stock}
+\fi
+\ifdim\paperheight=\stockheight\else
+  \errmessage{bookbangla-test-failed: trim exceeds small stock}
+\fi
+\begin{document}
+\mainmatter
+\chapter{ছোট মাপের বই}
+\section{শুরু}
+বাংলা ও English লেখা, ছোট পৃষ্ঠায়।
+\begin{example}\label{example:smallpaper}
+আটটি বস্তু সাতটি খোপে রাখলে কোনো খোপে অন্তত দুটি বস্তু থাকে।
+\end{example}
+দেখো \autoref{example:smallpaper}।
+\end{document}

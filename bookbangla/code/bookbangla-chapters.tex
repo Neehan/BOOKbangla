@@ -1,0 +1,102 @@
+% Chapter designs, implemented with memoir's heading hooks.
+% Copyright 2019, 2026 Adib Hasan. Part of BOOKbangla; LPPL 1.3c or later.
+
+% Register a normal memoir style, so \chapterstyle{...} remains an override.
+% Only the heading is decorated: \thechapter and reference values stay plain.
+\makechapterstyle{classic}{%
+  \renewcommand*\printchaptername{}%
+  \renewcommand*\chapternamenum{}%
+  \renewcommand*\printchapternum{%
+    \hfill\begin{tikzpicture}[every node/.style={outer sep=0pt}]
+      \node[outer sep=0pt,text width=2.4cm,minimum height=2.5cm,
+        fill=bookbanglaaccent,font=\color{white}\bfseries\fontsize{75}{80}\selectfont,
+        align=center] (bookbanglanumber) {\thechapter};
+      \node[rotate=90,anchor=south,font=\color{black}\bfseries\Large]
+        at ([xshift=-5pt]bookbanglanumber.west) {\@chapapp};
+    \end{tikzpicture}\par}
+  \renewcommand*\afterchapternum{\par\nobreak\vskip-30pt}
+  \renewcommand*\chaptitlefont{\bfseries\color{bookbanglaaccent}\fontsize{22}{24}\selectfont}
+  \renewcommand*\afterchaptertitle{%
+    \par\nobreak\vskip8pt
+    {\color{bookbanglaaccent}\hrule height2.5pt\vskip3pt\hrule height.4pt}%
+    \nobreak\vskip\afterchapskip}}
+\chapterstyle{classic}
+
+% The alternatives draw on Hansen, VZ34 and BlueBox in Lars Madsen's
+% memoir showcase: https://ctan.org/pkg/memoirchapstyles. Their compositions
+% are adapted for Bangla, monochrome printing and multiline titles.
+% Keep the numbered/unnumbered distinction local to memoir's heading group.
+\newif\ifbookbangla@numberedchapter
+\newcommand*\bookbangla@structuredchapter{%
+  \renewcommand*\printchaptername{}%
+  \renewcommand*\chapternamenum{}%
+  \renewcommand*\printchapternum{\bookbangla@numberedchaptertrue}%
+  \renewcommand*\printchapternonum{\bookbangla@numberedchapterfalse}%
+  \renewcommand*\afterchapternum{}%
+  \renewcommand*\chapnumfont{\normalfont\bfseries\fontsize{52}{56}\selectfont}
+  \renewcommand*\chaptitlefont{\normalfont\bfseries\fontsize{26}{34}\selectfont
+    \hyphenpenalty=10000\exhyphenpenalty=10000}}
+
+\makechapterstyle{modern}{%
+  \bookbangla@structuredchapter
+  \renewcommand*\printchaptertitle[1]{%
+    \begin{tikzpicture}[every node/.style={outer sep=0pt}]
+      % Reserve the opening's height even for a short or unnumbered title.
+      \path[use as bounding box] (0,0) rectangle (\linewidth,-96pt);
+      \ifbookbangla@numberedchapter
+        \node[anchor=north east,inner sep=0pt,
+          text=bookbanglaaccent!25!white,
+          font=\normalfont\bfseries\fontsize{120}{120}\selectfont]
+          at (\linewidth,10pt) {\thechapter};
+        \node[anchor=north west,inner sep=0pt,font=\normalfont\large]
+          at (0,0) {\@chapapp};
+      \fi
+      \node[anchor=north east,inner sep=0pt,text width=.92\linewidth,
+        align=right,font=\chaptitlefont] at (\linewidth,-36pt) {##1};
+    \end{tikzpicture}}}
+
+\makechapterstyle{minimal}{%
+  \bookbangla@structuredchapter
+  \renewcommand*\printchaptertitle[1]{%
+    \begin{tikzpicture}[every node/.style={outer sep=0pt}]
+      \node[anchor=north west,inner sep=0pt,
+        text width=\dimexpr\linewidth-82pt\relax,
+        align=left,font=\chaptitlefont] (bookbanglatitle)
+        at (82pt,0) {##1};
+      \ifbookbangla@numberedchapter
+        \node[anchor=north east,inner sep=0pt,font=\normalfont\small]
+          at (54pt,0) {\@chapapp};
+        \node[anchor=north east,inner sep=0pt,font=\chapnumfont]
+          (bookbanglanumber) at (54pt,-17pt) {\thechapter};
+      \else
+        \coordinate (bookbanglanumber) at (54pt,-54pt);
+      \fi
+      % Extend the divider to whichever is taller: the title or the number.
+      \coordinate (bookbanglaheadingbottom) at (current bounding box.south);
+      \draw[bookbanglaaccent,line width=1.2pt]
+        (66pt,2pt)--(66pt,0 |- bookbanglaheadingbottom);
+      \path[use as bounding box] (0,0);
+    \end{tikzpicture}}}
+
+\makechapterstyle{ruled}{%
+  \bookbangla@structuredchapter
+  \renewcommand*\printchaptertitle[1]{%
+    \begin{tikzpicture}[every node/.style={outer sep=0pt}]
+      \ifbookbangla@numberedchapter
+        \node[anchor=north west,inner xsep=9pt,inner ysep=6pt,
+          minimum width=58pt,minimum height=64pt,
+          fill=bookbanglaaccent,text=white,font=\chapnumfont]
+          (bookbanglanumber) at (0,0) {\thechapter};
+        \node[anchor=south west,inner sep=0pt,font=\normalfont\large]
+          at ([xshift=12pt,yshift=8pt]bookbanglanumber.south east) {\@chapapp};
+        \draw[bookbanglaaccent,line width=1.2pt]
+          (bookbanglanumber.south east)--(\dimexpr\linewidth-.6pt\relax,0 |- bookbanglanumber.south);
+        \coordinate (bookbanglatitletop) at ([yshift=-18pt]bookbanglanumber.south west);
+      \else
+        \draw[bookbanglaaccent,line width=1.2pt] (.6pt,0)--(\dimexpr\linewidth-.6pt\relax,0);
+        \coordinate (bookbanglatitletop) at (0,-18pt);
+      \fi
+      \node[anchor=north west,inner sep=0pt,text width=\linewidth,
+        align=left,font=\chaptitlefont] at (bookbanglatitletop) {##1};
+    \end{tikzpicture}}}
+\endinput

@@ -1,0 +1,55 @@
+% Book layout and memoir styles.
+% Copyright 2019, 2026 Adib Hasan. Part of BOOKbangla; LPPL 1.3c or later.
+
+% Apply the book's trimmed layout only when it fits the selected stock.
+% Smaller paper options retain memoir's own page and margin dimensions, so
+% layout validation succeeds before authors can apply further adjustments.
+\ifdim\stockwidth<\dimexpr6.8in+53.118pt\relax
+\else
+  \ifdim\stockheight<\dimexpr9.5in+79.136pt\relax
+  \else
+    \settrimmedsize{9.5in}{6.8in}{*}
+    \settrims{79.136pt}{53.118pt}
+    \settypeblocksize{7.8in}{5in}{*}
+    \setlrmargins{*}{*}{1}
+    \setulmargins{*}{*}{.7}
+  \fi
+\fi
+% Allow room for the tested Bangla heading fonts, avoiding clipped headers.
+\setheadfoot{18pt}{30pt}
+\checkandfixthelayout
+\linespread{1.15}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+\interfootnotelinepenalty=1000
+\allowdisplaybreaks
+
+\definecolor{bookbanglaaccent}{RGB}{60,60,60}
+\colorlet{bookbanglaboxframe}{black}
+\colorlet{bookbanglaboxbackground}{white}
+
+% Memoir exposes per-level number formatting. Do not add § to \thesection:
+% that would also decorate references and PDF bookmarks unintentionally.
+\setsecheadstyle{\raggedright\Large\bfseries}
+\setsecnumformat{%
+  \ifstrequal{#1}{section}{\S\,\csname thesection\endcsname\hspace{.5em}}%
+    {\csname the#1\endcsname\quad}}
+\renewcommand*\cftchapteraftersnum{.}
+
+% Memoir retains \thetitle after \maketitle, unlike LaTeX's temporary \@title.
+\makepagestyle{bookbangla}
+\makeevenhead{bookbangla}{\thepage}{}{\itshape\thetitle}
+\makeoddhead{bookbangla}{\itshape\rightmark}{}{\thepage}
+\makepsmarks{bookbangla}{%
+  \nouppercaseheads
+  \createmark{section}{right}{shownumber}{}{\space}}
+\pagestyle{bookbangla}
+
+% Bangla has no small-cap case. Avoid lettrine's default small-cap request for
+% the word following the initial, which otherwise produces font substitutions.
+\renewcommand*\LettrineTextFont{\normalfont}
+
+% This is an optional ornament, not a mandatory chapter-opening convention.
+\newcommand\firstword[2]{%
+  \lettrine[lraise=.25,nindent=0pt,findent=2pt]{#1}{#2}}
+\endinput

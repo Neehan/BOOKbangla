@@ -1,0 +1,120 @@
+% Book-specific authoring environments and shared box presentation.
+% Copyright 2019, 2026 Adib Hasan. Part of BOOKbangla; LPPL 1.3c or later.
+
+% Examples, reminders and DIY boxes share borders, padding and page breaking.
+% Each environment defines its own title placement.
+\tcbset{
+  bookbangla/base/.style={enhanced,breakable,arc=1mm,boxrule=.7pt,
+    colframe=bookbanglaboxframe,colback=bookbanglaboxbackground,
+    colbacktitle=bookbanglaboxbackground,coltitle=bookbanglaboxframe,
+    fonttitle=\bfseries,left=3pt,right=3pt,bottom=2pt,top=8pt,
+    before skip=8pt plus 2pt minus 4pt},
+  bookbangla/reminder/.style={bookbangla/base,
+    attach boxed title to top center={yshift=-\tcboxedtitleheight/2},
+    boxed title style={size=fbox,colback=bookbanglaboxbackground,
+      boxrule=.7pt,colframe=bookbanglaboxframe,
+      frame code={\path[tcb fill frame]
+        ([xshift=-2mm]frame.west)--(frame.north west)--(frame.north east)--
+        ([xshift=2mm]frame.east)--(frame.south east)--(frame.south west)--cycle;},
+      interior code={\path[tcb fill interior]
+        ([xshift=-2mm]interior.west)--(interior.north west)--(interior.north east)--
+        ([xshift=2mm]interior.east)--(interior.south east)--(interior.south west)--cycle;}}}}
+\newtcolorbox{diybox}{bookbangla/base,left=4pt,right=4pt,bottom=4pt,
+  top=4pt,title={\bookbangla@diyname},
+  attach boxed title to top center={yshift=-\tcboxedtitleheight/2},
+  boxed title style={size=normal,colframe=bookbanglaboxbackground,boxrule=0pt}}
+\newtcolorbox{reminder}[1][\bookbangla@remindername]{bookbangla/reminder,title={#1}}
+% amsthm shapes its heading in a temporary box, then unpacks it into the
+% paragraph. With LuaTeX/HarfBuzz, a hyphenated Bangla heading can carry PDF
+% text-extraction nodes inside a discretionary that cannot be unpacked safely.
+% Disable hyphenation only inside that heading box; spaces still allow breaks,
+% and the theorem body keeps its ordinary language and hyphenation settings.
+\ifLuaTeX
+  \xpatchcmd{\deferred@thm@head}{\normalfont#1}%
+    {\normalfont\language=\l@nohyphenation #1}{}{%
+      \ClassError{bookbangla}{Unable to configure theorem heading hyphenation}%
+        {Check the amsthm version.}}
+\fi
+% Formal theorems use amsthm's ordinary plain style and optional name.
+% Their chapter-based counter is independent of examples and exercises.
+\theoremstyle{plain}
+\newtheorem{theorem}{\bookbangla@theoremname}[chapter]
+\renewcommand*\theoremautorefname{\bookbangla@theoremname}
+
+\newcounter{example}[chapter]
+\renewcommand*\theexample{\thechapter.\arabic{example}}
+\providecommand*\exampleautorefname{\bookbangla@examplename}
+% The starred option preserves our chapter-based formatter instead of having
+% tcolorbox replace it with its default decimal-only formatter.
+\newtcolorbox[use counter*=example]{example}[1][]{bookbangla/base,
+  before skip=8pt plus 2pt minus 2pt,after skip=4pt plus 2pt,
+  attach boxed title to top left={yshift=-9pt,xshift=6pt},
+  boxed title style={size=fbox,boxrule=.7pt,colframe=bookbanglaboxframe,arc=1mm},
+  % tcolorbox creates the anchor in its phantom box. Restore the reference
+  % value in the body too, so an ordinary \label agrees with its label key.
+  before upper={\protected@edef\@currentlabel{\p@example\theexample}},
+  title={\bookbangla@examplename~\theexample},#1}
+
+% Use amsthm's proof/QED machinery; only its heading presentation changes.
+% A failed patch is reported, rather than silently losing the promised style.
+\xpatchcmd{\proof}{\itshape}{\normalfont\bfseries}{}{%
+  \ClassError{bookbangla}{Unable to style the proof heading}{Check the amsthm version.}}
+\xpatchcmd{\proof}{\@addpunct{.}}{\@addpunct{:}}{}{%
+  \ClassError{bookbangla}{Unable to style proof punctuation}{Check the amsthm version.}}
+\newenvironment{solution}[1][\bookbangla@solutionname]{\begin{proof}[#1]}{\end{proof}}
+\newtheoremstyle{bookbangla}{3pt}{3pt}{\normalfont}{}%
+  {\bfseries}{:}{.5em}{\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+\theoremstyle{bookbangla}
+\newtheorem*{remark}{\bookbangla@remarkname}
+% Do not make our remark style the default for authors' later declarations.
+\theoremstyle{plain}
+
+% Inset quotations with a right-aligned attribution. LaTeXbangla handles
+% script switching, so quotations can mix Bangla and English.
+\newcommand*\bookbanglaquotefont{\itshape}
+\NewDocumentEnvironment{chapquote}{O{2em} m}
+  {\begin{adjustwidth}{#1}{#1}\bookbanglaquotefont
+   \def\bookbangla@quotationauthor{#2}\ignorespaces}
+  {\par\nobreak\hfill{\normalfont—\ \bookbangla@quotationauthor}\par
+   \end{adjustwidth}\bigskip\ignorespacesafterend}
+
+% A normal enumitem list: callers can override labels, margins and spacing.
+% Draw overlapping rounded diamonds. The explicit bounds reserve whitespace,
+% and the baseline aligns the marker with the list text. Authors can replace
+% the marker through enumitem's label option.
+\newcommand*\bookbangla@listmarker{%
+  \tikz[x=1pt,y=1pt,baseline=-1.12pt]{%
+    \path[use as bounding box] (-5.53,-4.28) rectangle (5.65,6.90);
+    \foreach \x/\y in {0/0,.13/2.625}{%
+      \draw[black,line width=.86pt,rounded corners=.4pt,shift={(\x,\y)}]
+        (0,3.67)--(3.67,0)--(0,-3.67)--(-3.67,0)--cycle;}}}
+\newlist{smartlist}{itemize}{4}
+\setlist[smartlist]{label={\bookbangla@listmarker\;\;},labelsep=0pt,labelwidth=2em,
+  leftmargin=1.5em,itemindent=0pt}
+
+% Each problem owns its reference anchor. Keep hints local to the environment,
+% and typeset them after the body without capturing or reprocessing the body.
+\newcounter{exercise}[chapter]
+\renewcommand*\theexercise{\thechapter.\arabic{exercise}}
+\providecommand*\exerciseautorefname{\bookbangla@exercisename}
+\ExplSyntaxOn
+\tl_new:N \l__bookbangla_exercise_hint_tl
+\keys_define:nn {bookbangla/exercise}
+  {hint .tl_set:N = \l__bookbangla_exercise_hint_tl}
+\NewDocumentEnvironment{exercise}{O{}}
+  {
+    \tl_clear:N \l__bookbangla_exercise_hint_tl
+    \keys_set:nn {bookbangla/exercise}{#1}
+    \par\addvspace{\topsep}
+    \refstepcounter{exercise}
+    \noindent\textbf{\bookbangla@exercisename\nobreakspace\theexercise{}:}\enspace\ignorespaces
+  }
+  {
+    \par
+    \tl_if_blank:VF \l__bookbangla_exercise_hint_tl
+      {\nobreak\smallskip\noindent\textbf{\bookbangla@hintname{}:}\enspace
+       \tl_use:N \l__bookbangla_exercise_hint_tl\par}
+    \addvspace{\topsep}\ignorespacesafterend
+  }
+\ExplSyntaxOff
+\endinput

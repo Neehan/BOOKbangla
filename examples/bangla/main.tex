@@ -1,0 +1,34 @@
+% !TEX program = xelatex
+% Compile with XeLaTeX or LuaLaTeX, then BibTeX, then LaTeX twice more.
+% Copyright 2019, 2026 Adib Hasan. LPPL 1.3c or later.
+\documentclass[12pt,twoside]{bookbangla}
+\setbanglamainfont{SolaimanLipi}
+\setbanglamonofont{Siyam Rupali}
+
+% Choose the bibliography style and database for this book.
+\usepackage[sort,square,numbers]{natbib}
+\usepackage{hhline,placeins,multicol,longtable}
+\usepackage{custom}
+% Give long mixed-script paragraphs a little extra line-breaking flexibility.
+\setlength{\emergencystretch}{2em}
+
+% Uncomment to choose a different chapter style.
+% \chapterstyle{modern}
+\title{কম্বিনেটরিকসে হাতেখড়ি}
+\author{আদীব হাসান\\জয়দীপ সাহা\\আহমেদ জাওয়াদ চৌধুরী}
+
+\begin{document}
+% Keep citations and bibliography labels in Western digits.
+% Apply these natbib formats after LaTeXbangla's document-start setup.
+\renewcommand{\citenumfont}[1]{#1}
+\renewcommand{\bibnumfmt}[1]{[#1]}
+\frontmatter
+\include{titlepage}
+\tableofcontents*
+\mainmatter
+\include{chap/pigeonhole_principle}
+\backmatter
+\nocite{*}
+\bibliographystyle{abbrv}
+\bibliography{bookbib}
+\end{document}

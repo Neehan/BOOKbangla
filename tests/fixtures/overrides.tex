@@ -1,0 +1,64 @@
+% Test that explicit memoir settings and local font choices survive startup.
+\PassOptionsToPackage{changecounternumbering=false}{latexbangla}
+\documentclass[11pt,oneside,openany]{bookbangla}
+\setbanglamainfont{Kalpurush}
+\newfontfamily\quoteface{TeX Gyre Cursor}
+\bookbanglasetup{quote-font={\quoteface\itshape},
+  box-frame-color=black,box-background-color=black!3}
+\chapterstyle{default}
+\setsecnumformat{\csname the#1\endcsname\quad}
+\setsecheadstyle{\raggedright\large\itshape}
+\pagestyle{plain}
+\pretitle{\begin{center}\Large OVERRIDE: }
+\posttitle{\par\end{center}}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\title{নিজের নকশা}
+\author{লেখক}
+\date{}
+\begin{document}
+\ifdim\parindent=1em\else\errmessage{bookbangla-test-failed: paragraph override}\fi
+\maketitle
+\mainmatter
+\chapter{নিজের অধ্যায়}
+\section{নিজের পরিচ্ছেদ}
+\begin{chapquote}[1em]{Author}
+English quote with বাংলা and \textbf{bold words}.
+\end{chapquote}
+\begin{exercise}[hint={A first hint with $x=2$.}]\label{ex:first}
+প্রথম সমস্যা।
+\end{exercise}
+\begin{exercise}\label{ex:second}
+দ্বিতীয় সমস্যা। আগের ইঙ্গিত এখানে থাকবে না।
+\end{exercise}
+\section{পরের সমস্যা}
+\begin{exercise}\label{ex:third}তৃতীয় সমস্যা।\end{exercise}
+\ifnum\value{exercise}=3\else\errmessage{bookbangla-test-failed: exercise continuation}\fi
+\begin{example}\label{example:first}প্রথম উদাহরণ।\end{example}
+\ifnum\value{example}=1\else\errmessage{bookbangla-test-failed: separate counters}\fi
+\autoref{ex:first}, \autoref{ex:second}, \autoref{ex:third}, \autoref{example:first}.
+\chapter{পরের অধ্যায়}
+\begin{exercise}\label{ex:reset}নতুন অধ্যায়ের সমস্যা।\end{exercise}
+\ifnum\value{exercise}=1\else\errmessage{bookbangla-test-failed: chapter reset}\fi
+\autoref{ex:reset}.
+% Authors can replace the class's numbering through memoir's counter API.
+\counterwithout{example}{chapter}
+\setcounter{example}{7}
+\begin{example}\label{example:continuous}অষ্টম উদাহরণ।\end{example}
+\counterwithin{example}{chapter}
+\begin{smartlist}[label=--,leftmargin=2em,itemsep=0pt]
+\item প্রথম স্তর।
+\begin{smartlist}[label=+]\item দ্বিতীয় স্তর।\end{smartlist}
+\end{smartlist}
+\appendix
+\chapter{সংযোজন}
+\begin{exercise}\label{ex:appendix}সংযোজনের সমস্যা।\end{exercise}
+\autoref{ex:appendix}.
+\counterwithin{exercise}{section}
+\section{পরিচ্ছেদভিত্তিক সমস্যা}
+\begin{exercise}\label{ex:section}একটি সমস্যা।\end{exercise}
+\autoref{example:continuous}, \autoref{ex:section}.
+\backmatter
+\chapter{শেষ কথা}
+Done.
+\end{document}

@@ -1,0 +1,31 @@
+BOOKbangla 1.0 — Writing Bangla and Assamese books with memoir
+
+Write your Bangla or Assamese book with familiar LaTeX commands, styled chapter headings,
+worked examples, exercises with hints and chapter quotations. BOOKbangla builds
+on memoir and LaTeXbangla: choose your fonts and bibliography style, and use
+memoir's commands to adapt the layout to your book.
+
+Bangla is the default; select language=assamese for an Assamese book.
+Read bookbangla.pdf for usage and examples in English, Bangla and Assamese.
+Install the class with its code/ folder in your local TeX tree,
+or copy them beside your document. Compile with XeLaTeX or LuaLaTeX,
+with LaTeXbangla 2.0 or newer installed.
+
+Copyright 2019, 2026 Adib Hasan.
+Distributed under the LaTeX Project Public License 1.3c or later.
+Maintenance status: maintained. Current maintainer: Adib Hasan.
+Contact: latexbangla@googlegroups.com
+
+This work consists of:
+
+  LICENSE
+  README
+  bookbangla.cls
+  bookbangla.pdf
+  bookbangla.tex
+  code/bookbangla-chapters.tex
+  code/bookbangla-environments.tex
+  code/bookbangla-labels-assamese.tex
+  code/bookbangla-labels-bangla.tex
+  code/bookbangla-layout.tex
+  logo.png

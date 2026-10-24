@@ -1,0 +1,1027 @@
+% Copyright 2026 Adib Hasan. LPPL 1.3c or later.
+\documentclass[language=assamese,11pt,oneside,openany]{bookbangla}
+% The guide demonstrates the real class, with an A4 layout for documentation.
+\setstocksize{297mm}{210mm}
+\settrimmedsize{297mm}{210mm}{*}
+\settrims{0pt}{0pt}
+\setlrmarginsandblock{22mm}{22mm}{*}
+\setulmarginsandblock{22mm}{22mm}{*}
+\checkandfixthelayout
+\linespread{1}
+\setmainfont{TeX Gyre Pagella}
+\setsansfont{TeX Gyre Heros}
+\setmonofont{TeX Gyre Cursor}
+\setbanglamainfont{Kalpurush}
+% LaTeXbangla registers Assamese; Polyglossia supplies Bengali directly.
+% The combined guide uses both languages with the same configured font.
+\setotherlanguage[numerals=bengali,changecounternumbering=true]{bengali}
+\NewCommandCopy\bengalifont\assamesefont
+\newcommand*\bengalifontsf{\bengalifont}
+\newcommand*\bengalifonttt{\bengalifont}
+\makeatletter
+\bookbangla@loadmodule{labels-bangla}
+\makeatother
+\usepackage{minted,hologo,needspace}
+\tcbuselibrary{raster}
+\definecolor{BanglaGreen}{HTML}{006847}
+\definecolor{BanglaInk}{HTML}{263640}
+\definecolor{BanglaRed}{HTML}{C92935}
+\definecolor{CodePaper}{HTML}{F4F6F8}
+\definecolor{ResultPaper}{HTML}{F0F8F4}
+\hypersetup{colorlinks,linkcolor=BanglaGreen,urlcolor=BanglaGreen,
+  citecolor=BanglaGreen,pdftitle={BOOKbangla 1.0: User guide},pdfauthor={Adib Hasan}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt plus 1pt}
+\setlength{\emergencystretch}{2em}
+\setsecheadstyle{\Large\sffamily\bfseries\color{BanglaGreen}\raggedright}
+\setsubsecheadstyle{\normalsize\sffamily\bfseries\color{BanglaInk}\raggedright}
+\setbeforesecskip{-9pt}
+\setaftersecskip{6pt}
+\setbeforesubsecskip{-8pt}
+\setaftersubsecskip{3pt}
+\setsecnumdepth{section}
+\setsecnumformat{\csname the#1\endcsname\hspace{.6em}}
+\AddToHook{cmd/section/before}{\Needspace{5\baselineskip}}
+\AddToHook{cmd/subsection/before}{\Needspace{6\baselineskip}}
+% English navigation, with ordinary Bangla numbering inside the examples.
+\renewcommand*\thesection{\number\value{section}}
+\renewcommand*\thepage{\number\value{page}}
+\makepagestyle{manual}
+\makeoddhead{manual}{\small\sffamily\color{BanglaGreen}BOOKbangla}{}%
+  {\small\sffamily\color{BanglaInk}Version 1.0\quad User guide}
+\makeoddfoot{manual}{}{\small\thepage}{}
+\makeheadrule{manual}{\textwidth}{.3pt}
+\pagestyle{manual}
+
+% Execute the displayed source to produce each adjacent result panel.
+\tcbset{manualbox/.style={enhanced,boxrule=.4pt,arc=2mm,
+  colframe=BanglaGreen!35!white,colback=CodePaper,
+  colbacktitle=BanglaGreen!9!white,coltitle=BanglaGreen,
+  fonttitle=\small\sffamily\bfseries,left=3mm,right=3mm,top=2mm,bottom=2mm,
+  before skip=5pt,after skip=5pt}}
+\setminted{style=default,breaklines=true,breakanywhere=true}
+\newminted[code]{latex}{fontsize=\small,samepage}
+\newcommand*\manualcodetitle{Code}
+\newcommand*\manualresulttitle{Result}
+\newcounter{manualexample}
+\newcommand*\manualexamplefile{\jobname-example-\number\value{manualexample}.tex}
+\newenvironment{examplepair}
+  {\VerbatimEnvironment\stepcounter{manualexample}%
+   \begin{VerbatimOut}{\manualexamplefile}}
+  {\end{VerbatimOut}%
+   \begin{tcbraster}[raster columns=2,raster column skip=3mm,
+     raster equal height=rows,raster valign=top]
+   \begin{tcolorbox}[manualbox,title=\manualcodetitle]
+     \inputminted[fontsize=\footnotesize]{latex}{\manualexamplefile}
+   \end{tcolorbox}
+   \begin{tcolorbox}[manualbox,title=\manualresulttitle,colback=ResultPaper]
+     \input{\manualexamplefile}
+   \end{tcolorbox}
+   \end{tcbraster}}
+
+% Chapter previews use the actual memoir heading at book width, reduced to
+% fit the result panel. Only the surrounding page whitespace is omitted.
+\makeatletter
+\newcommand*\manualchapterpreview[1]{%
+  \resizebox{\linewidth}{!}{\begin{minipage}{5in}
+    \setlength{\beforechapskip}{0pt}\setlength{\afterchapskip}{0pt}%
+    \m@m@Andtrue\@makechapterhead{#1}%
+  \end{minipage}}}
+\makeatother
+\begin{document}
+\selectlanguage{bengali}
+\setcounter{chapter}{1}
+\hypertarget{guide-english}{}
+\phantomsection\label{manual:english}
+\pdfbookmark[0]{English user guide}{manual-english}
+\thispagestyle{empty}
+\begin{center}
+\includegraphics[width=.66\linewidth]{logo.png}\\[2pt]
+{\Large\sffamily\color{BanglaGreen}Writing Bangla \& Assamese books with memoir}\\[5pt]
+{Adib Hasan}\\[2pt]
+{\small\href{https://groups.google.com/g/latexbangla}{\texttt{latexbangla@googlegroups.com}}}\\[3pt]
+{24 October 2026\quad\textcolor{BanglaRed}{\textbullet}\quad Version 1.0}
+\end{center}
+Follow this guide in \hyperref[manual:bangla]{বাংলা} or
+\hyperref[manual:assamese]{অসমীয়া}.
+
+BOOKbangla helps you turn a Bangla or Assamese manuscript into a book without having to
+design every page from scratch. Familiar \LaTeX{}
+commands let you write chapters, add worked examples and problems, and refer
+to them with consistent styling and chapter-based numbering.
+
+The design comes from \emph{কম্বিনেটরিকসে হাতেখড়ি}\footnote{Adib Hasan,
+Joydeep Saha and Ahmed Zawad Chowdhury, \emph{Introduction to Combinatorics},
+Vol.~1, Dimik Prokashoni, 2019.} and can be adapted using
+memoir's layout commands. \LaTeX{}bangla handles the selected language's text and numbering,
+while you choose the text and mathematics fonts.
+
+BOOKbangla is free to use under LPPL 1.3c or later. If you use it to publish
+a book, I would appreciate an acknowledgement of BOOKbangla and its author,
+Adib Hasan.
+
+\section{Quickstart}
+Use \hologo{XeLaTeX} or \hologo{LuaLaTeX} with \LaTeX{}bangla 2.0 or newer installed. Install the
+contents of the package directory in your local TeX tree, keeping its
+\texttt{code/} directory, or copy those files beside your main document.
+The following is a complete starting point:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\documentclass[12pt,twoside]{bookbangla}
+\setbanglamainfont{Kalpurush}
+\title{আমার বই}
+\author{লেখকের নাম}
+\date{}
+\begin{document}
+\frontmatter
+\maketitle
+\tableofcontents*
+\mainmatter
+\chapter{শুরু}
+এখান থেকে বইয়ের লেখা শুরু।
+\backmatter
+\end{document}
+\end{code}
+\end{tcolorbox}
+Choose an installed Bangla font or load a font file using \LaTeX{}bangla's setters.
+English fonts remain independent. For example, this optional line selects
+an English font:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\setmainfont{TeX Gyre Pagella}
+\end{code}
+\end{tcolorbox}
+Use \verb|\setbanglasansfont| and \verb|\setbanglamonofont| for separate
+sans and mono families in the selected language. No quotation font is required.
+
+For an Assamese book, add \texttt{language=assamese} to the \verb|\documentclass| options.
+Bangla is the default. The font commands stay the same; choose a font that
+includes ৰ and ৱ. Headings, numbering and reference names follow your choice.
+
+The example in \texttt{examples/bangla/main.tex} includes a title page, contents,
+a complete combinatorics chapter, exercises and bibliography.
+Compile with LaTeX, BibTeX, then LaTeX twice more.
+
+\section{Title pages and chapter design}
+The title page uses memoir's ordinary \verb|\maketitle| and the
+\verb|\title|, \verb|\author| and \verb|\date| metadata. Put
+\verb|\maketitle| inside a \texttt{titlingpage} environment for a separate
+page. Nothing is inserted automatically. Write your own \texttt{titlingpage}
+and omit \verb|\maketitle| for a completely custom design; copyright text
+also belongs to the document.
+
+Choose a chapter style with memoir's \verb|\chapterstyle| command.
+\texttt{classic} is the default. All four are suitable for black-and-white printing;
+other memoir chapter styles remain available too. Use
+\verb|\chapterstyle{default}| for memoir's normal chapter heading. This
+changes chapter headings, not the page layout or section styling. See
+\texttt{examples/chapter-styles.pdf} for full-page samples. The previews below
+show the same chapter title in each design, reduced to fit the panels.
+\begingroup
+\let\chapter\manualchapterpreview
+\begin{examplepair}
+\chapterstyle{classic}
+\chapter{গণনার শুরু}
+\end{examplepair}
+\begin{examplepair}
+\chapterstyle{modern}
+\chapter{গণনার শুরু}
+\end{examplepair}
+\begin{examplepair}
+\chapterstyle{minimal}
+\chapter{গণনার শুরু}
+\end{examplepair}
+\begin{examplepair}
+\chapterstyle{ruled}
+\chapter{গণনার শুরু}
+\end{examplepair}
+\endgroup
+
+\subsection{Make the design your own}
+
+Use \verb|\bookbanglasetup{...}| to set the following options.
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+Setting & Meaning\\
+\midrule
+\texttt{accent-color} & Chapter accents (default dark gray)\\
+\texttt{box-frame-color} & Box borders and titles (default black)\\
+\texttt{box-background-color} & Box backgrounds (default white)\\
+\texttt{quote-font} & Font commands for quotation text (default italic)\\
+\bottomrule
+\end{tabular}
+\end{center}
+These are BOOKbangla's own settings. For other adjustments, use memoir after
+loading the class. Later explicit changes take precedence. For example:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\chapterstyle{modern} % Replace BOOKbangla's chapter style.
+\pagestyle{plain}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\end{code}
+\end{tcolorbox}
+Return to the default chapter design with \verb|\chapterstyle{classic}|. The section
+heading's \S{} marker is decoration, so references contain only the section
+number. To remove it, use memoir's formatter:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\setsecnumformat{\csname the#1\endcsname\quad}
+\end{code}
+\end{tcolorbox}
+The default trimmed page is 9.5 by 6.8 inches on A4 stock. Change trim size,
+type block and margins using memoir, then call \verb|\checkandfixthelayout|.
+Smaller paper options, such as \verb|a5paper|, use memoir's page dimensions
+and margins instead.
+For an A5 book without trimming:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\setstocksize{210mm}{148mm}
+\settrimmedsize{210mm}{148mm}{*}
+\settrims{0pt}{0pt}
+\setlrmarginsandblock{20mm}{18mm}{*}
+\setulmarginsandblock{22mm}{25mm}{*}
+\checkandfixthelayout
+\end{code}
+\end{tcolorbox}
+Running headers use the book title on even pages and the section mark on odd
+pages. Customize them with memoir's page-style commands. The
+\href{https://ctan.org/pkg/memoir}{memoir manual} describes these interfaces.
+
+\section{Examples, statements and exercises}
+An \texttt{example} is a numbered, breakable box. Its numbering restarts in
+each chapter, and both ordinary labels and the \texttt{label} option
+work:
+\begin{examplepair}
+\begin{example}[label=ex:weekdays]
+আটজন বন্ধুর মধ্যে অন্তত দুজনের জন্ম একই বারে কেন?
+\end{example}
+\begin{solution}
+সপ্তাহে সাতটি বার আছে।
+\end{solution}
+দেখো \autoref{ex:weekdays}।
+\end{examplepair}
+\texttt{solution} uses proof-style presentation and an end mark; give it an
+optional heading with \verb|\begin{solution}[অন্য সমাধান]|. The ordinary
+\texttt{proof} environment remains available, including \verb|\qedhere|.
+Use \texttt{remark} for an unnumbered মন্তব্য.
+
+\texttt{reminder} supplies the মনে রাখবে box with an optional replacement
+title, and \texttt{diybox} supplies the নিজে করো box. For a formal statement,
+\texttt{theorem} uses amsthm's ordinary plain style: a bold heading and italic
+body, with its own chapter-based numbering. An optional argument adds the
+theorem's name; ordinary labels and references work as usual:
+\begin{examplepair}
+\begin{theorem}[পায়রার খোপ নীতি]
+\label{thm:pigeonhole}
+তিনটি বস্তু দুটি খোপে রাখলে
+কোনো খোপে অন্তত দুটি বস্তু থাকে।
+\end{theorem}
+\begin{proof}
+প্রতি খোপে সর্বোচ্চ একটি বস্তু
+রাখলে দুটি বস্তু রাখা যায়।
+\end{proof}
+দেখো \autoref{thm:pigeonhole}।
+\end{examplepair}
+\begin{examplepair}
+\begin{reminder}
+বস্তু ও খোপ আগে চিহ্নিত করো।
+\end{reminder}
+\begin{diybox}
+চারটি বস্তু নিয়ে চেষ্টা করো।
+\end{diybox}
+\end{examplepair}
+Define additional statement environments with \verb|\newtheorem| when needed,
+choosing whether they share the theorem counter or have their own.
+
+Each \texttt{exercise} is one problem, labelled সমস্যা. Use an ordinary
+section to group problems:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\section{অনুশীলনী}
+\end{code}
+\end{tcolorbox}
+\begin{examplepair}
+\begin{exercise}[
+  hint={মাসগুলোকে খোপ ধরো;
+        $13>12$।}]
+\label{ex:months}
+তেরোজন মানুষের মধ্যে অন্তত দুজনের জন্ম একই মাসে, দেখাও।
+\end{exercise}
+\begin{exercise}
+চারটি পূর্ণসংখ্যার মধ্যে দুটির
+$3$ দিয়ে ভাগশেষ সমান, দেখাও।
+\end{exercise}
+দেখো \autoref{ex:months}।
+\end{examplepair}
+A supplied hint appears after the problem under ইঙ্গিত:. Without a hint,
+only the problem is printed. Exercise numbering is separate from examples,
+continues across sections, and restarts at each chapter. Both support
+\verb|\label|, \verb|\ref| and \verb|\autoref|. Appendices follow memoir's
+chapter numbering, localized by \LaTeX{}bangla. To number problems within
+sections instead, use memoir's counter command in the preamble:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\counterwithin{exercise}{section}
+\end{code}
+\end{tcolorbox}
+Use \verb|\counterwithout{exercise}{chapter}| for a continuous sequence across
+the book. The same commands apply to the \texttt{example} counter.
+
+\section{Quotations, lists and mathematics}
+\begin{examplepair}
+\begin{chapquote}[1em]{লেখক}
+ছোট প্রশ্ন থেকেই বড় ধারণার জন্ম হয়।
+\end{chapquote}
+\end{examplepair}
+The optional argument sets both side indents; the author’s name follows
+the quotation. To choose an English quotation font:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\newfontfamily\quoteface{TeX Gyre Cursor}
+\bookbanglasetup{quote-font={\quoteface\itshape}}
+\end{code}
+\end{tcolorbox}
+\LaTeX{}bangla handles Bangla or Assamese within the quotation. A decorative
+opening can use a drop cap:
+\begin{examplepair}
+\firstword{আ}{মরা} পরিচিত একটি
+ধারণা দিয়ে শুরু করি। ছোট প্রশ্ন
+থেকে অনেক বড় ধারণা জন্ম নেয়।
+\end{examplepair}
+
+\texttt{smartlist} uses a diamond marker by default. Its options are
+\texttt{enumitem} options, so labels, margins and spacing can be changed locally:
+\begin{examplepair}
+\begin{smartlist}
+\item বস্তুগুলো চিহ্নিত করো।
+\item খোপগুলো গুনে দেখো।
+\end{smartlist}
+\begin{smartlist}[
+  label=$\Rightarrow$,labelsep=.5em,
+  leftmargin=2em,itemsep=0pt]
+\item নিজের যুক্তি লিখে ফেলো।
+\end{smartlist}
+\end{examplepair}
+Ordinary \texttt{itemize} and \texttt{enumerate} are unchanged.
+
+AMS mathematics and proof support are loaded. Use \verb|\eqref| for equation
+references with parentheses. Multiline displays may break across pages; use
+\verb|\allowdisplaybreaks[0]| to prevent that. Graphics and table footnotes
+are supported. For other features, use memoir or packages such as
+\texttt{longtable}, \texttt{multicol} and \texttt{placeins}.
+
+\section{Bibliography and package options}
+Choose your bibliography package, style and resources in the document. The
+class does not load \texttt{natbib} or \texttt{biblatex}. It loads
+\texttt{hyperref}; change link appearance with \verb|\hypersetup|. To change
+\LaTeX{}bangla's numbering option, pass it before loading the class:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\PassOptionsToPackage{changecounternumbering=false}{latexbangla}
+\documentclass{bookbangla}
+\end{code}
+\end{tcolorbox}
+
+\smallskip
+Copyright 2019, 2026 Adib Hasan. Maintained by Adib Hasan.
+See \texttt{README} for the list of files.
+
+\clearpage
+% Keep page numbers continuous, but restart the translated guide's sections
+% and demonstrations. Distinct labels and PDF anchors keep references local.
+\renewcommand*\thesection{\arabic{section}}
+\renewcommand*\thepage{\arabic{page}}
+\renewcommand*\theHsection{bangla.\number\value{section}}
+\renewcommand*\theHexample{bangla.\number\value{example}}
+\renewcommand*\theHexercise{bangla.\number\value{exercise}}
+\renewcommand*\theHtheorem{bangla.\number\value{theorem}}
+\setcounter{section}{0}
+\setcounter{example}{0}
+\setcounter{exercise}{0}
+\setcounter{theorem}{0}
+\renewcommand*\manualcodetitle{কোড}
+\renewcommand*\manualresulttitle{ফলাফল}
+\makeoddhead{manual}{\small\sffamily\color{BanglaGreen}BOOKbangla}{}%
+  {\small\sffamily\color{BanglaInk}সংস্করণ ১.০\quad ব্যবহার নির্দেশিকা}
+\hypertarget{guide-bangla}{}
+\phantomsection\label{manual:bangla}
+\pdfbookmark[0]{বাংলা ব্যবহার নির্দেশিকা}{manual-bangla}
+\thispagestyle{empty}
+\begin{center}
+\includegraphics[width=.66\linewidth]{logo.png}\\[2pt]
+{\Large\sffamily\color{BanglaGreen}memoir দিয়ে বাংলা ও অসমীয়া বই লেখা}\\[5pt]
+{আদীব হাসান}\\[2pt]
+{\small\href{https://groups.google.com/g/latexbangla}{\texttt{latexbangla@googlegroups.com}}}\\[3pt]
+{২৪ অক্টোবর ২০২৬\quad\textcolor{BanglaRed}{\textbullet}\quad সংস্করণ ১.০}
+\end{center}
+এই নির্দেশিকা \hyperref[manual:english]{ইংরেজি} ও
+\hyperref[manual:assamese]{অসমীয়াতেও} পড়তে পারেন।
+
+BOOKbangla দিয়ে বাংলা বা অসমীয়া পাণ্ডুলিপি থেকে বই তৈরি করতে প্রতিটি পৃষ্ঠার নকশা
+গোড়া থেকে করতে হয় না। পরিচিত \LaTeX-এর কমান্ড দিয়েই অধ্যায়
+লিখতে, সমাধানসহ উদাহরণ ও সমস্যা যোগ করতে এবং সেগুলোর রেফারেন্স দিতে পারেন।
+এগুলোর সাজানোর রীতি ও অধ্যায়ভিত্তিক নম্বর ক্লাস নিজেই সামলায়।
+
+নকশাটি এসেছে \emph{কম্বিনেটরিকসে হাতেখড়ি}\footnote{আদীব হাসান,
+জয়দীপ সাহা ও আহমেদ জাওয়াদ চৌধুরী, \emph{কম্বিনেটরিকসে হাতেখড়ি — ১ম খণ্ড},
+দ্বিমিক প্রকাশনী, ২০১৯।} থেকে; memoir-এর কমান্ড দিয়ে
+পৃষ্ঠার বিন্যাস নিজের মতো বদলে নিতে পারেন। নির্বাচিত ভাষার লেখা ও নম্বর সামলায়
+\LaTeX{}bangla, আর লেখার ও গণিতের ফন্ট বেছে নেন আপনি।
+
+BOOKbangla LPPL 1.3c বা পরবর্তী সংস্করণের অধীনে বিনামূল্যে ব্যবহার করতে পারেন।
+এটি দিয়ে বই প্রকাশ করলে বইয়ে BOOKbangla ও এর লেখক আদীব হাসানের নাম
+উল্লেখ করলে খুশি হব।
+
+\section{দ্রুত আরম্ভ}
+\hologo{XeLaTeX} বা \hologo{LuaLaTeX} ব্যবহার করুন। \LaTeX{}bangla ২.০ বা পরবর্তী
+সংস্করণ ইনস্টল করা থাকতে হবে। প্যাকেজের ফাইলগুলো আপনার কম্পিউটারের স্থানীয়
+TeX ট্রিতে ইনস্টল করুন, অথবা মূল ডকুমেন্টের পাশে রাখুন। দুই ক্ষেত্রেই
+\texttt{code/} ফোল্ডারের বিন্যাস অক্ষত রাখুন।
+শুরু করার জন্য নিচের সম্পূর্ণ ডকুমেন্টটি ব্যবহার করতে পারেন:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\documentclass[12pt,twoside]{bookbangla}
+\setbanglamainfont{Kalpurush}
+\title{আমার বই}
+\author{লেখকের নাম}
+\date{}
+\begin{document}
+\frontmatter
+\maketitle
+\tableofcontents*
+\mainmatter
+\chapter{শুরু}
+এখান থেকে বইয়ের লেখা শুরু।
+\backmatter
+\end{document}
+\end{code}
+\end{tcolorbox}
+\LaTeX{}bangla-এর ফন্ট নির্ধারণের কমান্ড দিয়ে ইনস্টল করা বাংলা ফন্ট বেছে নিতে
+বা সরাসরি ফন্ট ফাইল লোড করতে পারেন। ইংরেজি ফন্ট আলাদাভাবে বেছে নেওয়া যায়।
+যেমন, ইংরেজি ফন্ট বদলাতে চাইলে এই লাইনটি যোগ করতে পারেন:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\setmainfont{TeX Gyre Pagella}
+\end{code}
+\end{tcolorbox}
+\verb|\setbanglasansfont| ও \verb|\setbanglamonofont| দিয়ে নির্বাচিত ভাষার
+sans ও mono ফন্ট আলাদা করে বেছে নিতে পারেন। উদ্ধৃতির জন্য আলাদা ফন্ট দেওয়া জরুরি নয়।
+
+অসমীয়া বইয়ের জন্য ক্লাসের অপশন দিন \texttt{language=assamese}।
+ডিফল্ট ভাষা বাংলা। ফন্টের কমান্ডগুলো একই থাকে; ৰ ও ৱ আছে এমন ফন্ট বেছে নিন।
+শিরোনাম, নম্বর ও রেফারেন্সের নাম নির্বাচিত ভাষা অনুযায়ী আসে।
+
+সঙ্গে দেওয়া \texttt{examples/bangla/main.tex}-এ শিরোনাম পৃষ্ঠা, সূচিপত্র,
+কম্বিনেটরিকসের একটি সম্পূর্ণ অধ্যায়, অনুশীলনী ও গ্রন্থসূত্র আছে। প্রথমে LaTeX,
+তারপর BibTeX, এরপর আরও দুবার LaTeX চালিয়ে কম্পাইল করুন।
+
+\section{শিরোনাম পৃষ্ঠা ও অধ্যায়ের নকশা}
+শিরোনাম পৃষ্ঠাটি memoir-এর পরিচিত \verb|\maketitle| কমান্ড দিয়ে তৈরি হয়;
+বইয়ের নাম, লেখক ও তারিখ আসে \verb|\title|, \verb|\author| ও \verb|\date|
+থেকে। শিরোনামের জন্য আলাদা পৃষ্ঠা রাখতে \texttt{titlingpage} এনভায়রনমেন্টের ভেতরে
+\verb|\maketitle| লিখুন। ক্লাস নিজে থেকে শিরোনাম পৃষ্ঠা যোগ করে না। সম্পূর্ণ নিজের
+নকশা চাইলে \verb|\maketitle| বাদ দিয়ে \texttt{titlingpage}-এর ভেতরে সেটি
+লিখুন। কপিরাইটের লেখাও আপনার ডকুমেন্টেই রাখবেন।
+
+memoir-এর \verb|\chapterstyle| কমান্ড দিয়ে অধ্যায়ের নকশা বেছে নিন।
+ডিফল্ট নকশা হলো \texttt{classic}। চারটি নকশাই সাদাকালো ছাপার উপযোগী;
+memoir-এর অন্য নকশাগুলোও ব্যবহার করতে পারেন। memoir-এর সাধারণ অধ্যায়ের
+শিরোনাম পেতে \verb|\chapterstyle{default}| লিখুন। এতে শুধু অধ্যায়ের শিরোনাম
+বদলায়; পৃষ্ঠার বিন্যাস বা পরিচ্ছেদের নকশা বদলায় না। পুরো পৃষ্ঠায় নকশাগুলো
+দেখতে \texttt{examples/chapter-styles.pdf} খুলুন। নিচে একই অধ্যায়ের শিরোনাম
+চারটি নকশায় দেখানো হয়েছে; বক্সে ধরানোর জন্য আকার ছোট করা হয়েছে।
+\begingroup
+\let\chapter\manualchapterpreview
+\begin{examplepair}
+\chapterstyle{classic}
+\chapter{গণনার শুরু}
+\end{examplepair}
+\begin{examplepair}
+\chapterstyle{modern}
+\chapter{গণনার শুরু}
+\end{examplepair}
+\begin{examplepair}
+\chapterstyle{minimal}
+\chapter{গণনার শুরু}
+\end{examplepair}
+\begin{examplepair}
+\chapterstyle{ruled}
+\chapter{গণনার শুরু}
+\end{examplepair}
+\endgroup
+
+\subsection{নিজের মতো করে সাজানো}
+
+নিচের সেটিংগুলো বদলাতে \verb|\bookbanglasetup{...}| ব্যবহার করুন।
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+সেটিং & কাজ\\
+\midrule
+\texttt{accent-color} & অধ্যায়ের নকশার রং (ডিফল্ট গাঢ় ধূসর)\\
+\texttt{box-frame-color} & বক্সের সীমানা ও শিরোনাম (ডিফল্ট কালো)\\
+\texttt{box-background-color} & বক্সের পটভূমি (ডিফল্ট সাদা)\\
+\texttt{quote-font} & উদ্ধৃতির ফন্টের কমান্ড (ডিফল্ট তির্যক)\\
+\bottomrule
+\end{tabular}
+\end{center}
+এগুলো BOOKbangla-এর নিজস্ব সেটিং। অন্য কিছু বদলাতে ক্লাস লোড করার পরে
+memoir-এর কমান্ড ব্যবহার করুন। পরে দেওয়া নির্দেশই কার্যকর হবে। যেমন:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\chapterstyle{modern} % অধ্যায়ের নকশা বদলান।
+\pagestyle{plain}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\end{code}
+\end{tcolorbox}
+ডিফল্ট নকশায় ফিরতে \verb|\chapterstyle{classic}| লিখুন। পরিচ্ছেদের শিরোনামের
+\S{} চিহ্নটি শুধু সাজানোর জন্য; রেফারেন্সে কেবল পরিচ্ছেদের নম্বর থাকে।
+চিহ্নটি বাদ দিতে memoir-এর নম্বর সাজানোর কমান্ড ব্যবহার করুন:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\setsecnumformat{\csname the#1\endcsname\quad}
+\end{code}
+\end{tcolorbox}
+ডিফল্ট বিন্যাসে A4 কাগজ কেটে তৈরি পৃষ্ঠার মাপ ৯.৫ বাই ৬.৮ ইঞ্চি। memoir দিয়ে
+কাটার পরের মাপ, লেখার এলাকার মাপ ও মার্জিন বদলে \verb|\checkandfixthelayout|
+চালান। \verb|a5paper|-এর মতো ছোট কাগজের অপশন দিলে memoir-এর পৃষ্ঠার মাপ
+ও মার্জিন ব্যবহৃত হয়। কাগজ না কেটে সরাসরি A5 মাপের বইয়ের জন্য:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\setstocksize{210mm}{148mm}
+\settrimmedsize{210mm}{148mm}{*}
+\settrims{0pt}{0pt}
+\setlrmarginsandblock{20mm}{18mm}{*}
+\setulmarginsandblock{22mm}{25mm}{*}
+\checkandfixthelayout
+\end{code}
+\end{tcolorbox}
+জোড় পৃষ্ঠার ওপরে বইয়ের নাম এবং বিজোড় পৃষ্ঠার ওপরে পরিচ্ছেদের নম্বর ও
+শিরোনাম থাকে। memoir-এর পৃষ্ঠাশৈলীর কমান্ড দিয়ে এগুলো বদলাতে পারেন।
+বিস্তারিত পাবেন \href{https://ctan.org/pkg/memoir}{memoir-এর নির্দেশিকায়}।
+
+\section{উদাহরণ, উপপাদ্য ও অনুশীলনী}
+\texttt{example} হলো নম্বরযুক্ত উদাহরণের বক্স; প্রয়োজনে এটি একাধিক পৃষ্ঠায়
+ছড়িয়ে যেতে পারে। প্রতি অধ্যায়ে এর নম্বর নতুন করে শুরু হয়। সাধারণ
+\verb|\label| কমান্ড ও \texttt{label} অপশন দুটোই ব্যবহার করা যায়:
+\begin{examplepair}
+\begin{example}[label=bn:weekdays]
+আটজন বন্ধুর মধ্যে অন্তত দুজনের জন্ম একই বারে কেন?
+\end{example}
+\begin{solution}
+সপ্তাহে সাতটি বার আছে।
+\end{solution}
+দেখো \autoref{bn:weekdays}।
+\end{examplepair}
+\texttt{solution} প্রমাণের মতো করে সমাধান সাজায় এবং শেষে সমাপ্তিচিহ্ন দেয়।
+
+\verb|\begin{solution}[অন্য সমাধান]| দিয়ে শিরোনাম বদলাতে পারেন। পরিচিত
+\texttt{proof} এনভায়রনমেন্ট ও \verb|\qedhere| কমান্ডও ব্যবহার করা যায়।
+নম্বর ছাড়া মন্তব্য লিখতে \texttt{remark} ব্যবহার করুন।
+
+\texttt{reminder} দিয়ে মনে রাখবে বক্স তৈরি হয়; ঐচ্ছিক আর্গুমেন্ট দিয়ে এর
+শিরোনাম বদলাতে পারেন। \texttt{diybox} দেয় নিজে করো বক্স। উপপাদ্যের জন্য
+\texttt{theorem} ব্যবহার করুন। এতে amsthm-এর সাধারণ \texttt{plain} শৈলী
+অনুযায়ী গাঢ় শিরোনাম ও তির্যক লেখা থাকে, আর নম্বর চলে অধ্যায়ভিত্তিক আলাদা
+ধারায়। ঐচ্ছিক আর্গুমেন্টে উপপাদ্যের নাম যোগ করা যায়; পরিচিত লেবেল ও
+রেফারেন্সের কমান্ডও কাজ করে:
+\begin{examplepair}
+\begin{theorem}[পায়রার খোপ নীতি]
+\label{bn:theorem}
+তিনটি বস্তু দুটি খোপে রাখলে
+কোনো খোপে অন্তত দুটি বস্তু থাকে।
+\end{theorem}
+\begin{proof}
+প্রতি খোপে সর্বোচ্চ একটি বস্তু
+রাখলে দুটি বস্তু রাখা যায়।
+\end{proof}
+দেখো \autoref{bn:theorem}।
+\end{examplepair}
+\begin{examplepair}
+\begin{reminder}
+বস্তু ও খোপ আগে চিহ্নিত করো।
+\end{reminder}
+\begin{diybox}
+চারটি বস্তু নিয়ে চেষ্টা করো।
+\end{diybox}
+\end{examplepair}
+আরও উপপাদ্য বা অনুরূপ এনভায়রনমেন্ট দরকার হলে \verb|\newtheorem| দিয়ে তৈরি
+করুন। সেগুলোর নম্বর উপপাদ্যের সঙ্গে একই ধারায় চলবে, নাকি আলাদা হবে, তা
+আপনিই বেছে নিতে পারেন।
+
+প্রতিটি \texttt{exercise}-এ একটি সমস্যা লিখবেন; এর শিরোনাম হয় সমস্যা।
+সমস্যাগুলো একসঙ্গে রাখতে সাধারণ পরিচ্ছেদ ব্যবহার করুন:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\section{অনুশীলনী}
+\end{code}
+\end{tcolorbox}
+\begin{examplepair}
+\begin{exercise}[
+  hint={মাসগুলোকে খোপ ধরো;
+        $13>12$।}]
+\label{bn:months}
+তেরোজন মানুষের মধ্যে অন্তত দুজনের জন্ম একই মাসে, দেখাও।
+\end{exercise}
+\begin{exercise}
+চারটি পূর্ণসংখ্যার মধ্যে দুটির
+$3$ দিয়ে ভাগশেষ সমান, দেখাও।
+\end{exercise}
+দেখো \autoref{bn:months}।
+\end{examplepair}
+ইঙ্গিত দিলে সেটি সমস্যার পরে ইঙ্গিত: শিরোনামে দেখা যায়। না দিলে শুধু
+সমস্যাটিই ছাপা হয়। সমস্যার নম্বর উদাহরণের নম্বর থেকে আলাদা; পরিচ্ছেদ বদলালে
+তা চলতে থাকে, নতুন অধ্যায়ে আবার শুরু হয়। দুটোতেই \verb|\label|,
+\verb|\ref| ও \verb|\autoref| ব্যবহার করা যায়। পরিশিষ্টে memoir-এর অধ্যায়ের
+নম্বর ব্যবহৃত হয়, যা \LaTeX{}bangla বাংলায় দেখায়। প্রতি পরিচ্ছেদে সমস্যার
+নম্বর নতুন করে শুরু করতে চাইলে প্রিঅ্যাম্বলে লিখুন:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\counterwithin{exercise}{section}
+\end{code}
+\end{tcolorbox}
+পুরো বইয়ে সমস্যার নম্বর একটানা চালাতে
+\verb|\counterwithout{exercise}{chapter}| ব্যবহার করুন। \texttt{example}
+কাউন্টারের ক্ষেত্রেও একই কমান্ডগুলো প্রযোজ্য।
+
+\section{উদ্ধৃতি, তালিকা ও গণিত}
+\begin{examplepair}
+\begin{chapquote}[1em]{লেখক}
+ছোট প্রশ্ন থেকেই বড় ধারণার জন্ম হয়।
+\end{chapquote}
+\end{examplepair}
+ঐচ্ছিক আর্গুমেন্ট দিয়ে উদ্ধৃতির দুই পাশের ফাঁকা জায়গা নির্ধারণ করা যায়;
+শেষে লেখকের নাম থাকে। ইংরেজি উদ্ধৃতির জন্য আলাদা ফন্ট বেছে নিতে:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\newfontfamily\quoteface{TeX Gyre Cursor}
+\bookbanglasetup{quote-font={\quoteface\itshape}}
+\end{code}
+\end{tcolorbox}
+উদ্ধৃতির ভেতরের বাংলা বা অসমীয়া লেখা \LaTeX{}bangla সামলায়। অনুচ্ছেদের
+শুরুতে প্রথম অক্ষরটি বড় করে সাজাতে পারেন:
+\begin{examplepair}
+\firstword{আ}{মরা} পরিচিত একটি
+ধারণা দিয়ে শুরু করি। ছোট প্রশ্ন
+থেকে অনেক বড় ধারণা জন্ম নেয়।
+\end{examplepair}
+
+\texttt{smartlist}-এ ডিফল্টভাবে হীরকাকৃতির চিহ্ন থাকে। এতে \texttt{enumitem}-এর
+অপশনগুলো ব্যবহার করে নির্দিষ্ট তালিকার চিহ্ন, মার্জিন ও ব্যবধান বদলাতে পারেন:
+\begin{examplepair}
+\begin{smartlist}
+\item বস্তুগুলো চিহ্নিত করো।
+\item খোপগুলো গুনে দেখো।
+\end{smartlist}
+\begin{smartlist}[
+  label=$\Rightarrow$,labelsep=.5em,
+  leftmargin=2em,itemsep=0pt]
+\item নিজের যুক্তি লিখে ফেলো।
+\end{smartlist}
+\end{examplepair}
+পরিচিত \texttt{itemize} ও \texttt{enumerate} আগের মতোই কাজ করে।
+
+AMS-এর গণিত ও প্রমাণের সুবিধাগুলো লোড করা আছে। বন্ধনীসহ সমীকরণের রেফারেন্স
+দিতে \verb|\eqref| ব্যবহার করুন। একাধিক লাইনের সমীকরণ পৃষ্ঠা পেরিয়ে চলতে
+পারে; তা বন্ধ করতে \verb|\allowdisplaybreaks[0]| লিখুন। ছবি যোগ করা ও
+সারণিতে পাদটীকা দেওয়াও যায়। অন্য সুবিধার জন্য memoir অথবা
+\texttt{longtable}, \texttt{multicol}, \texttt{placeins}-এর মতো প্যাকেজ ব্যবহার করুন।
+
+\section{গ্রন্থসূত্র ও প্যাকেজের অপশন}
+গ্রন্থসূত্রের প্যাকেজ, বিন্যাস ও তথ্যের ফাইল আপনার ডকুমেন্টে বেছে নিন। ক্লাস
+\texttt{natbib} বা \texttt{biblatex} লোড করে না। \texttt{hyperref} লোড করে;
+লিংকের চেহারা বদলাতে \verb|\hypersetup| ব্যবহার করুন। \LaTeX{}bangla-এর
+নম্বরের অপশন বদলাতে ক্লাস লোড করার আগে সেটি দিন:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\PassOptionsToPackage{changecounternumbering=false}{latexbangla}
+\documentclass{bookbangla}
+\end{code}
+\end{tcolorbox}
+
+\smallskip
+কপিরাইট ২০১৯, ২০২৬ আদীব হাসান। রক্ষণাবেক্ষণকারী আদীব হাসান।
+ফাইলের তালিকা দেখুন \texttt{README}-তে।
+
+\clearpage
+\selectlanguage{assamese}
+\renewcommand*\theHsection{assamese.\number\value{section}}
+\renewcommand*\theHexample{assamese.\number\value{example}}
+\renewcommand*\theHexercise{assamese.\number\value{exercise}}
+\renewcommand*\theHtheorem{assamese.\number\value{theorem}}
+\setcounter{section}{0}
+\setcounter{example}{0}
+\setcounter{exercise}{0}
+\setcounter{theorem}{0}
+\renewcommand*\manualcodetitle{কোড}
+\renewcommand*\manualresulttitle{ফলাফল}
+\makeoddhead{manual}{\small\sffamily\color{BanglaGreen}BOOKbangla}{}%
+  {\small\sffamily\color{BanglaInk}সংস্কৰণ ১.০\quad ব্যৱহাৰ নিৰ্দেশিকা}
+\hypertarget{guide-assamese}{}
+\phantomsection\label{manual:assamese}
+\pdfbookmark[0]{অসমীয়া ব্যৱহাৰ নিৰ্দেশিকা}{manual-assamese}
+\thispagestyle{empty}
+\begin{center}
+\includegraphics[width=.66\linewidth]{logo.png}\\[2pt]
+{\Large\sffamily\color{BanglaGreen}memoir-এৰে বাংলা আৰু অসমীয়া কিতাপ লিখক}\\[5pt]
+{আদীব হাসান}\\[2pt]
+{\small\href{https://groups.google.com/g/latexbangla}{\texttt{latexbangla@googlegroups.com}}}\\[3pt]
+{২৪ অক্টোবৰ ২০২৬\quad\textcolor{BanglaRed}{\textbullet}\quad সংস্কৰণ ১.০}
+\end{center}
+এই নিৰ্দেশিকা \hyperref[manual:english]{ইংৰাজী} আৰু
+\hyperref[manual:bangla]{বাংলাতো} পঢ়িব পাৰে।
+
+BOOKbangla-ৰে বাংলা বা অসমীয়া পাণ্ডুলিপিৰ পৰা কিতাপ তৈয়াৰ কৰোঁতে প্ৰতিটো
+পৃষ্ঠাৰ নক্সা আৰম্ভণিৰ পৰা কৰিব নালাগে। চিনাকি \LaTeX{} কমাণ্ডেৰেই অধ্যায়
+লিখিব, সমাধানসহ উদাহৰণ আৰু সমস্যা যোগ কৰিব, আৰু সেইবোৰৰ উল্লেখ দিব পাৰে।
+সেইবোৰৰ সজ্জা আৰু অধ্যায়ভিত্তিক নম্বৰ ক্লাছটোৱেই সামলায়।
+
+নক্সাটো \emph{কম্বিনেটরিকসে হাতেখড়ি}\footnote{আদীব হাসান,
+জয়দীপ সাহা আৰু আহমেদ জাওয়াদ চৌধুৰী, \emph{কম্বিনেটরিকসে হাতেখড়ি — ১ম খণ্ড},
+দ্বিমিক প্ৰকাশনী, ২০১৯।} কিতাপৰ পৰা লোৱা হৈছে; memoir-ৰ কমাণ্ডেৰে
+পৃষ্ঠাৰ বিন্যাস নিজৰ মতে সলনি কৰিব পাৰে। বাছনি কৰা ভাষাৰ লিখনি আৰু নম্বৰ
+\LaTeX{}bangla-ই সামলায়, আৰু লিখনিৰ তথা গণিতৰ ফণ্ট আপুনি বাছি লয়।
+
+BOOKbangla LPPL 1.3c বা পৰৱৰ্তী সংস্কৰণৰ অধীনত বিনামূলীয়াকৈ ব্যৱহাৰ কৰিব পাৰে।
+ইয়াৰে কিতাপ প্ৰকাশ কৰিলে কিতাপখনত BOOKbangla আৰু ইয়াৰ লেখক আদীব হাসানৰ
+নাম উল্লেখ কৰিলে আনন্দিত হ'ম।
+
+\section{সোনকালে আৰম্ভ কৰক}
+\hologo{XeLaTeX} অথবা \hologo{LuaLaTeX} ব্যৱহাৰ কৰক। \LaTeX{}bangla ২.০ বা
+পৰৱৰ্তী সংস্কৰণ ইনষ্টল কৰা থাকিব লাগিব। পেকেজৰ ফাইলবোৰ আপোনাৰ কম্পিউটাৰৰ
+স্থানীয় TeX ট্ৰীত ইনষ্টল কৰক, অথবা মূল ডকুমেণ্টৰ কাষত ৰাখক। দুয়ো ক্ষেত্ৰতে
+\texttt{code/} ফ'ল্ডাৰৰ গঠন অক্ষুণ্ণ ৰাখিব। আৰম্ভ কৰিবলৈ তলৰ সম্পূৰ্ণ
+ডকুমেণ্টটো ব্যৱহাৰ কৰিব পাৰে:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\documentclass[language=assamese,12pt,twoside]{bookbangla}
+\setbanglamainfont{Kalpurush}
+\title{মোৰ কিতাপ}
+\author{লেখকৰ নাম}
+\date{}
+\begin{document}
+\frontmatter
+\maketitle
+\tableofcontents*
+\mainmatter
+\chapter{আৰম্ভণি}
+ইয়াৰ পৰা কিতাপৰ লিখনি আৰম্ভ।
+\backmatter
+\end{document}
+\end{code}
+\end{tcolorbox}
+\LaTeX{}bangla-ৰ ফণ্ট নিৰ্ধাৰণৰ কমাণ্ডেৰে ইনষ্টল কৰা ফণ্ট বাছি ল'ব পাৰে,
+অথবা পোনপটীয়াকৈ ফণ্ট ফাইল লোড কৰিব পাৰে। ইংৰাজী ফণ্ট পৃথককৈ বাছিব পাৰে।
+উদাহৰণস্বৰূপে, ইংৰাজী ফণ্ট সলনি কৰিবলৈ এই শাৰীটো যোগ কৰক:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\setmainfont{TeX Gyre Pagella}
+\end{code}
+\end{tcolorbox}
+বাছনি কৰা ভাষাৰ sans আৰু mono পৰিয়ালৰ বাবে পৃথক ফণ্ট বিচাৰিলে
+\verb|\setbanglasansfont| আৰু \verb|\setbanglamonofont| ব্যৱহাৰ কৰক।
+উদ্ধৃতিৰ বাবে পৃথক ফণ্ট দিয়াৰ প্ৰয়োজন নাই।
+
+অসমীয়া কিতাপৰ বাবে \texttt{language=assamese} বাছক; ডিফল্ট ভাষা বাংলা।
+ফণ্টৰ কমাণ্ডবোৰ একেই থাকে; ৰ আৰু ৱ থকা ফণ্ট বাছি লওক। শিৰোনাম, নম্বৰ আৰু
+ৰেফাৰেন্সৰ নাম বাছনি কৰা ভাষা অনুসৰি আহে।
+
+লগত দিয়া \texttt{examples/bangla/main.tex}-ত এখন বাংলা কিতাপৰ শিৰোনাম পৃষ্ঠা,
+সমল, কম্বিনেটৰিক্সৰ এটা সম্পূৰ্ণ অধ্যায়, অনুশীলনী আৰু তথ্যসূত্ৰ আছে। প্ৰথমে
+LaTeX, তাৰ পিছত BibTeX, তাৰ পিছত আৰু দুবাৰ LaTeX চলাই কম্পাইল কৰক।
+
+\section{শিৰোনাম পৃষ্ঠা আৰু অধ্যায়ৰ নক্সা}
+শিৰোনাম পৃষ্ঠাটো memoir-ৰ চিনাকি \verb|\maketitle| কমাণ্ডেৰে তৈয়াৰ হয়;
+কিতাপৰ নাম, লেখক আৰু তাৰিখ \verb|\title|, \verb|\author| আৰু \verb|\date|-ৰ
+পৰা আহে। শিৰোনামৰ বাবে পৃথক পৃষ্ঠা ৰাখিবলৈ \texttt{titlingpage}
+এনভায়ৰনমেণ্টৰ ভিতৰত \verb|\maketitle| লিখক। ক্লাছে নিজে শিৰোনাম পৃষ্ঠা
+যোগ নকৰে। সম্পূৰ্ণ নিজৰ নক্সা বিচাৰিলে \verb|\maketitle| বাদ দি
+\texttt{titlingpage}-ৰ ভিতৰত সেইটো লিখক। কপিৰাইটৰ লিখনিও আপোনাৰ
+ডকুমেণ্টতেই ৰাখিব।
+
+memoir-ৰ \verb|\chapterstyle| কমাণ্ডেৰে অধ্যায়ৰ নক্সা বাছি লওক।
+ডিফল্ট নক্সা হৈছে \texttt{classic}। চাৰিওটা নক্সা ক'লা-বগা ছপাৰ উপযোগী;
+memoir-ৰ আন নক্সাবোৰো ব্যৱহাৰ কৰিব পাৰে। memoir-ৰ সাধাৰণ অধ্যায়ৰ শিৰোনাম
+পাবলৈ \verb|\chapterstyle{default}| লিখক। ইয়াৰ ফলত কেৱল অধ্যায়ৰ শিৰোনাম
+সলনি হয়; পৃষ্ঠাৰ বিন্যাস বা পৰিচ্ছেদৰ নক্সা সলনি নহয়। সম্পূৰ্ণ পৃষ্ঠাত
+নক্সাবোৰ চাবলৈ \texttt{examples/chapter-styles.pdf} খোলক। তলত একেটা অধ্যায়ৰ
+শিৰোনাম চাৰিটা নক্সাত দেখুওৱা হৈছে; বক্সত ধৰাবলৈ আকাৰ সৰু কৰা হৈছে।
+\begingroup
+\let\chapter\manualchapterpreview
+\begin{examplepair}
+\chapterstyle{classic}
+\chapter{গণনাৰ আৰম্ভণি}
+\end{examplepair}
+\begin{examplepair}
+\chapterstyle{modern}
+\chapter{গণনাৰ আৰম্ভণি}
+\end{examplepair}
+\begin{examplepair}
+\chapterstyle{minimal}
+\chapter{গণনাৰ আৰম্ভণি}
+\end{examplepair}
+\begin{examplepair}
+\chapterstyle{ruled}
+\chapter{গণনাৰ আৰম্ভণি}
+\end{examplepair}
+\endgroup
+
+\subsection{নিজৰ মতে সজাওক}
+তলৰ ছেটিংবোৰ সলনি কৰিবলৈ \verb|\bookbanglasetup{...}| ব্যৱহাৰ কৰক।
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+ছেটিং & কাম\\
+\midrule
+\texttt{accent-color} & অধ্যায়ৰ নক্সাৰ ৰং (ডিফল্ট গাঢ় ধূসৰ)\\
+\texttt{box-frame-color} & বক্সৰ সীমা আৰু শিৰোনাম (ডিফল্ট ক'লা)\\
+\texttt{box-background-color} & বক্সৰ পটভূমি (ডিফল্ট বগা)\\
+\texttt{quote-font} & উদ্ধৃতিৰ ফণ্টৰ কমাণ্ড (ডিফল্ট হেলনীয়া)\\
+\bottomrule
+\end{tabular}
+\end{center}
+এইবোৰ BOOKbangla-ৰ নিজা ছেটিং। আন কিবা সলনি কৰিবলৈ ক্লাছ লোড কৰাৰ পিছত
+memoir-ৰ কমাণ্ড ব্যৱহাৰ কৰক। পিছত দিয়া নিৰ্দেশ কাৰ্যকৰী হ'ব। উদাহৰণস্বৰূপে:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\chapterstyle{modern} % অধ্যায়ৰ নক্সা সলনি কৰক।
+\pagestyle{plain}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\end{code}
+\end{tcolorbox}
+ডিফল্ট নক্সালৈ উভতিবলৈ \verb|\chapterstyle{classic}| লিখক। পৰিচ্ছেদৰ
+শিৰোনামৰ \S{} চিহ্নটো কেৱল সজ্জাৰ বাবে; ৰেফাৰেন্সত কেৱল পৰিচ্ছেদৰ নম্বৰ
+থাকে। চিহ্নটো আঁতৰাবলৈ memoir-ৰ নম্বৰ সজোৱা কমাণ্ড ব্যৱহাৰ কৰক:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\setsecnumformat{\csname the#1\endcsname\quad}
+\end{code}
+\end{tcolorbox}
+ডিফল্ট বিন্যাসত A4 কাগজ কাটি তৈয়াৰ কৰা পৃষ্ঠাৰ মাপ ৯.৫ বাই ৬.৮ ইঞ্চি।
+memoir-এৰে কাটিবলৈ নিৰ্ধাৰণ কৰা মাপ, লিখনিৰ এলেকা আৰু মাৰ্জিন সলনি কৰি
+\verb|\checkandfixthelayout| চলাওক। \verb|a5paper|-ৰ দৰে সৰু কাগজৰ অপশন
+দিলে memoir-ৰ পৃষ্ঠাৰ মাপ আৰু মাৰ্জিন ব্যৱহাৰ হয়। কাগজ নকটাকৈ পোনে পোনে
+A5 মাপৰ কিতাপৰ বাবে:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\setstocksize{210mm}{148mm}
+\settrimmedsize{210mm}{148mm}{*}
+\settrims{0pt}{0pt}
+\setlrmarginsandblock{20mm}{18mm}{*}
+\setulmarginsandblock{22mm}{25mm}{*}
+\checkandfixthelayout
+\end{code}
+\end{tcolorbox}
+যুগ্ম পৃষ্ঠাৰ ওপৰত কিতাপৰ নাম আৰু অযুগ্ম পৃষ্ঠাৰ ওপৰত পৰিচ্ছেদৰ নম্বৰ তথা
+শিৰোনাম থাকে। memoir-ৰ পৃষ্ঠাশৈলীৰ কমাণ্ডেৰে এইবোৰ সলনি কৰিব পাৰে।
+সবিশেষ \href{https://ctan.org/pkg/memoir}{memoir-ৰ নিৰ্দেশিকাত} পাব।
+
+\section{উদাহৰণ, উপপাদ্য আৰু অনুশীলনী}
+\texttt{example} হৈছে নম্বৰযুক্ত উদাহৰণৰ বক্স; প্ৰয়োজন হ'লে ই একাধিক
+পৃষ্ঠালৈ বিয়পিব পাৰে। প্ৰতিটো অধ্যায়ত ইয়াৰ নম্বৰ পুনৰ আৰম্ভ হয়। সাধাৰণ
+\verb|\label| কমাণ্ড আৰু \texttt{label} অপশন দুয়োটাই ব্যৱহাৰ কৰিব পাৰে:
+\begin{examplepair}
+\begin{example}[label=as:weekdays]
+আঠজন বন্ধুৰ ভিতৰত অন্তত দুজনৰ জন্ম একেটা বাৰত কিয় হয়?
+\end{example}
+\begin{solution}
+সপ্তাহত সাতটা বাৰ আছে।
+\end{solution}
+\autoref{as:weekdays} চোৱা।
+\end{examplepair}
+\texttt{solution}-এ প্ৰমাণৰ দৰে সমাধান সজায় আৰু শেষত সমাপ্তিচিহ্ন দিয়ে।
+\verb|\begin{solution}[আন এটা সমাধান]| লিখি শিৰোনাম সলনি কৰিব পাৰে।
+চিনাকি \texttt{proof} এনভায়ৰনমেণ্ট আৰু \verb|\qedhere| কমাণ্ডও ব্যৱহাৰ
+কৰিব পাৰে। নম্বৰ নথকা মন্তব্য লিখিবলৈ \texttt{remark} ব্যৱহাৰ কৰক।
+
+\texttt{reminder}-এ মনত ৰাখিবা বক্স তৈয়াৰ কৰে; ঐচ্ছিক আৰ্গুমেণ্টেৰে ইয়াৰ
+শিৰোনাম সলনি কৰিব পাৰে। \texttt{diybox}-এ নিজে কৰা বক্স দিয়ে। উপপাদ্যৰ
+বাবে \texttt{theorem} ব্যৱহাৰ কৰক। ইয়াত amsthm-ৰ সাধাৰণ \texttt{plain}
+শৈলী অনুসৰি গাঢ় শিৰোনাম আৰু হেলনীয়া লিখনি থাকে; নম্বৰ অধ্যায়ভিত্তিক
+পৃথক ক্ৰমত চলে। ঐচ্ছিক আৰ্গুমেণ্টত উপপাদ্যৰ নাম যোগ কৰিব পাৰে; চিনাকি লেবেল
+আৰু ৰেফাৰেন্সৰ কমাণ্ডবোৰো কাম কৰে:
+\begin{examplepair}
+\begin{theorem}[কপৌৰ খোপ নীতি]
+\label{as:theorem}
+তিনিটা বস্তু দুটা খোপত ৰাখিলে
+কোনো এটা খোপত অন্তত দুটা বস্তু থাকে।
+\end{theorem}
+\begin{proof}
+প্ৰতিটো খোপত সৰ্বাধিক এটা বস্তু
+ৰাখিলে দুটা বস্তু ৰাখিব পাৰি।
+\end{proof}
+\autoref{as:theorem} চোৱা।
+\end{examplepair}
+\begin{examplepair}
+\begin{reminder}
+বস্তু আৰু খোপ আগতে চিনাক্ত কৰা।
+\end{reminder}
+\begin{diybox}
+চাৰিটা বস্তু লৈ চেষ্টা কৰা।
+\end{diybox}
+\end{examplepair}
+অধিক উপপাদ্য বা অনুৰূপ এনভায়ৰনমেণ্টৰ প্ৰয়োজন হ'লে \verb|\newtheorem|-এৰে
+তৈয়াৰ কৰক। সেইবোৰৰ নম্বৰ উপপাদ্যৰ সৈতে একে ক্ৰমত চলিব নে পৃথক হ'ব,
+সেইটো আপুনি বাছি ল'ব পাৰে।
+
+প্ৰতিটো \texttt{exercise}-ত এটা সমস্যা লিখিব; ইয়াৰ শিৰোনাম হয় সমস্যা।
+সমস্যাবোৰ একেলগে ৰাখিবলৈ সাধাৰণ পৰিচ্ছেদ ব্যৱহাৰ কৰক:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\section{অনুশীলনী}
+\end{code}
+\end{tcolorbox}
+\begin{examplepair}
+\begin{exercise}[
+  hint={মাহবোৰক খোপ বুলি ধৰা;
+        $13>12$।}]
+\label{as:months}
+তেৰজন মানুহৰ ভিতৰত অন্তত দুজনৰ জন্ম একেটা মাহত হয়, দেখুওৱা।
+\end{exercise}
+\begin{exercise}
+চাৰিটা পূৰ্ণসংখ্যাৰ ভিতৰত দুটাক
+$3$-ৰে ভাগ কৰিলে ভাগশেষ সমান হয়, দেখুওৱা।
+\end{exercise}
+\autoref{as:months} চোৱা।
+\end{examplepair}
+ইংগিত দিলে সেইটো সমস্যাৰ পিছত ইংগিত: শিৰোনামেৰে দেখা যায়। নিদিলে কেৱল
+সমস্যাটো ছপা হয়। সমস্যাৰ নম্বৰ উদাহৰণৰ নম্বৰৰ পৰা পৃথক; পৰিচ্ছেদ সলনি
+হ'লেও ই চলি থাকে, নতুন অধ্যায়ত পুনৰ আৰম্ভ হয়। দুয়োটাতে \verb|\label|,
+\verb|\ref| আৰু \verb|\autoref| ব্যৱহাৰ কৰিব পাৰে। পৰিশিষ্টত memoir-ৰ
+অধ্যায়ৰ নম্বৰ ব্যৱহাৰ হয়, যিটো \LaTeX{}bangla-ই বাছনি কৰা ভাষাত দেখুৱায়।
+প্ৰতিটো পৰিচ্ছেদত সমস্যাৰ নম্বৰ পুনৰ আৰম্ভ কৰিবলৈ প্ৰিঅ্যাম্বলত লিখক:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\counterwithin{exercise}{section}
+\end{code}
+\end{tcolorbox}
+গোটেই কিতাপত সমস্যাৰ নম্বৰ একেৰাহে চলাবলৈ
+\verb|\counterwithout{exercise}{chapter}| ব্যৱহাৰ কৰক। \texttt{example}
+কাউণ্টাৰৰ ক্ষেত্ৰতো একেই কমাণ্ডবোৰ প্ৰযোজ্য।
+
+\section{উদ্ধৃতি, তালিকা আৰু গণিত}
+\begin{examplepair}
+\begin{chapquote}[1em]{লেখক}
+সৰু প্ৰশ্নৰ পৰাই ডাঙৰ ধাৰণাৰ জন্ম হয়।
+\end{chapquote}
+\end{examplepair}
+ঐচ্ছিক আৰ্গুমেণ্টেৰে উদ্ধৃতিৰ দুয়োফালৰ খালী ঠাই নিৰ্ধাৰণ কৰিব পাৰে;
+শেষত লেখকৰ নাম থাকে। ইংৰাজী উদ্ধৃতিৰ বাবে পৃথক ফণ্ট বাছিবলৈ:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\newfontfamily\quoteface{TeX Gyre Cursor}
+\bookbanglasetup{quote-font={\quoteface\itshape}}
+\end{code}
+\end{tcolorbox}
+উদ্ধৃতিৰ ভিতৰৰ বাংলা বা অসমীয়া লিখনি \LaTeX{}bangla-ই সামলায়। অনুচ্ছেদৰ আৰম্ভণিত
+প্ৰথম আখৰটো ডাঙৰকৈ সজাব পাৰে:
+\begin{examplepair}
+\firstword{আ}{মি} চিনাকি এটা
+ধাৰণাৰে আৰম্ভ কৰোঁ। সৰু প্ৰশ্নৰ
+পৰা বহু ডাঙৰ ধাৰণাৰ জন্ম হয়।
+\end{examplepair}
+
+\texttt{smartlist}-ত ডিফল্টভাৱে হীৰাকৃতিৰ চিহ্ন থাকে। ইয়াত
+\texttt{enumitem}-ৰ অপশনবোৰ ব্যৱহাৰ কৰি নিৰ্দিষ্ট তালিকাৰ চিহ্ন, মাৰ্জিন
+আৰু ব্যৱধান সলনি কৰিব পাৰে:
+\begin{examplepair}
+\begin{smartlist}
+\item বস্তুবোৰ চিনাক্ত কৰা।
+\item খোপবোৰ গণনা কৰা।
+\end{smartlist}
+\begin{smartlist}[
+  label=$\Rightarrow$,labelsep=.5em,
+  leftmargin=2em,itemsep=0pt]
+\item নিজৰ যুক্তি লিখি পেলোৱা।
+\end{smartlist}
+\end{examplepair}
+চিনাকি \texttt{itemize} আৰু \texttt{enumerate} সাধাৰণভাৱেই কাম কৰে।
+
+AMS-ৰ গণিত আৰু প্ৰমাণৰ সুবিধাবোৰ লোড কৰা আছে। বন্ধনীসহ সমীকৰণৰ ৰেফাৰেন্স
+দিবলৈ \verb|\eqref| ব্যৱহাৰ কৰক। একাধিক শাৰীৰ সমীকৰণ পৃষ্ঠা পাৰ হৈ চলিব
+পাৰে; সেইটো বন্ধ কৰিবলৈ \verb|\allowdisplaybreaks[0]| লিখক। ছবি যোগ কৰা
+আৰু সাৰণীত পাদটীকা দিয়াও যায়। আন সুবিধাৰ বাবে memoir অথবা
+\texttt{longtable}, \texttt{multicol}, \texttt{placeins}-ৰ দৰে পেকেজ ব্যৱহাৰ কৰক।
+
+\section{তথ্যসূত্ৰ আৰু পেকেজৰ অপশন}
+তথ্যসূত্ৰৰ পেকেজ, বিন্যাস আৰু তথ্যৰ ফাইল আপোনাৰ ডকুমেণ্টত বাছি লওক। ক্লাছে
+\texttt{natbib} বা \texttt{biblatex} লোড নকৰে। ই \texttt{hyperref} লোড কৰে;
+লিংকৰ ৰূপ সলনি কৰিবলৈ \verb|\hypersetup| ব্যৱহাৰ কৰক। \LaTeX{}bangla-ৰ
+নম্বৰৰ অপশন সলনি কৰিবলৈ ক্লাছ লোড কৰাৰ আগতে সেইটো দিয়ক:
+\begin{tcolorbox}[manualbox,title=\manualcodetitle]
+\begin{code}
+\PassOptionsToPackage{changecounternumbering=false}{latexbangla}
+\documentclass[language=assamese]{bookbangla}
+\end{code}
+\end{tcolorbox}
+
+\smallskip
+কপিৰাইট ২০১৯, ২০২৬ আদীব হাসান। ৰক্ষণাবেক্ষণকাৰী আদীব হাসান।
+ফাইলৰ তালিকা \texttt{README}-ত চাওক।
+\end{document}

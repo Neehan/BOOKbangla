@@ -1,0 +1,32 @@
+% Check wrapping, unnumbered chapters and style switching on smaller stock.
+\documentclass[oneside,openany]{bookbangla}
+\setbanglamainfont{Kalpurush}
+\setstocksize{210mm}{148mm}
+\settrimmedsize{210mm}{148mm}{*}
+\settrims{0pt}{0pt}
+\setlrmarginsandblock{20mm}{18mm}{*}
+\setulmarginsandblock{22mm}{25mm}{*}
+\checkandfixthelayout
+\title{অধ্যায়ের নকশা}
+\newcommand\testchapterstyle[1]{%
+  \chapterstyle{#1}
+  \chapter*{লেখকের কথা}
+  একটি সংক্ষিপ্ত ভূমিকা।
+  \setcounter{chapter}{11}
+  \chapter{গণনার নানা পদ্ধতি এবং পায়রার খোপ নীতির প্রয়োগ}
+  \section{একটি পরিচিত ধারণা}
+  শিরোনাম একাধিক লাইনে গেলেও মূল লেখার জায়গা থাকে।
+  \begin{example}একটি ছোট উদাহরণ।\end{example}}
+\begin{document}
+\mainmatter
+\testchapterstyle{modern}
+\testchapterstyle{minimal}
+\testchapterstyle{ruled}
+\chapterstyle{classic}
+\setcounter{chapter}{0}
+\chapter{মূল নকশা}
+আগের নকশায় ফিরে এলাম।
+\chapterstyle{default}
+\chapter{সাধারণ নকশা}
+Memoir's default heading remains available.
+\end{document}

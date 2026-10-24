@@ -1,0 +1,16 @@
+% Assamese labels for structures introduced by BOOKbangla.
+% Copyright 2026 Adib Hasan. Part of BOOKbangla; LPPL 1.3c or later.
+% Standard chapter, section, proof and bibliography names belong to LaTeXbangla.
+
+\newcommand*\bookbangla@setassameselabels{%
+  \def\bookbangla@theoremname{উপপাদ্য}%
+  \def\bookbangla@examplename{উদাহৰণ}%
+  \def\bookbangla@exercisename{সমস্যা}%
+  \def\bookbangla@solutionname{সমাধান}%
+  \def\bookbangla@remarkname{মন্তব্য}%
+  \def\bookbangla@remindername{মনত ৰাখিবা}%
+  \def\bookbangla@diyname{নিজে কৰা}%
+  \def\bookbangla@hintname{ইংগিত}}
+\AddToHook{cmd/captionsassamese/after}{\bookbangla@setassameselabels}
+\bookbangla@setassameselabels
+\endinput

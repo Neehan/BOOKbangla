@@ -1,0 +1,22 @@
+% Ordinary amsthm statements: names, independent counters, resets and links.
+\documentclass[oneside,openany]{bookbangla}
+\setbanglamainfont{Kalpurush}
+\begin{document}
+\mainmatter
+\chapter{উপপাদ্য}
+\begin{theorem}[পায়রার খোপ নীতি]\label{thm:named}
+তিনটি বস্তু দুটি খোপে রাখলে কোনো খোপে অন্তত দুটি বস্তু থাকে।
+\end{theorem}
+\begin{proof}প্রতি খোপে একটি করে রাখলে মাত্র দুটি বস্তু রাখা যায়।\end{proof}
+\begin{example}\label{example:separate}একটি উদাহরণ।\end{example}
+\begin{exercise}\label{exercise:separate}একটি সমস্যা।\end{exercise}
+\section{পরের পরিচ্ছেদ}
+\begin{theorem}\label{thm:continued}আরেকটি উপপাদ্য।\end{theorem}
+\chapter{পরের অধ্যায়}
+\begin{theorem}\label{thm:reset}নতুন অধ্যায়ের উপপাদ্য।\end{theorem}
+\appendix
+\chapter{পরিশিষ্ট}
+\begin{theorem}\label{thm:appendix}পরিশিষ্টের উপপাদ্য।\end{theorem}
+\autoref{thm:named}, \autoref{thm:continued}, \autoref{thm:reset},
+\autoref{thm:appendix}, \autoref{example:separate}, \autoref{exercise:separate}।
+\end{document}

@@ -1,0 +1,23 @@
+% No title page, no second Bangla font, and no optional design settings.
+\documentclass[oneside,openany]{bookbangla}
+\setbanglamainfont{Kalpurush}
+\ifdim\paperwidth=6.8in\else
+  \errmessage{bookbangla-test-failed: default page width changed}
+\fi
+\ifdim\paperheight=9.5in\else
+  \errmessage{bookbangla-test-failed: default page height changed}
+\fi
+\begin{document}
+\makeatletter
+\ifdefstring{\bookbangla@examplename}{উদাহরণ}{}{%
+  \errmessage{bookbangla-test-failed: default Bangla label lost}}
+\makeatother
+\mainmatter
+\chapter{শুরু}
+একটি বই।
+\begin{exercise}[hint={শেষে একটি ইঙ্গিত।}]একটি সমস্যা।\end{exercise}
+\newpage
+পরের পাতা।
+\newpage
+আরেকটি পাতা।
+\end{document}

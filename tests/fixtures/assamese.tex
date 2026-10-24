@@ -1,0 +1,58 @@
+% Assamese headings, reference names, counter resets and appendix letters.
+\documentclass[language=assamese,oneside,openany]{bookbangla}
+\setbanglamainfont{Kalpurush}
+\setmainfont{TeX Gyre Pagella}
+\title{গণিতৰ সৰু কিতাপ}
+\newcommand*\assertlabel[2]{%
+  \edef\actuallabel{#1}\def\expectedlabel{#2}%
+  \ifx\actuallabel\expectedlabel\else
+    \errmessage{bookbangla-test-failed: incorrect Assamese label}\fi}
+\begin{document}
+\makeatletter
+\assertlabel{\bookbangla@theoremname}{উপপাদ্য}
+\assertlabel{\bookbangla@examplename}{উদাহৰণ}
+\assertlabel{\bookbangla@exercisename}{সমস্যা}
+\assertlabel{\bookbangla@solutionname}{সমাধান}
+\assertlabel{\bookbangla@remarkname}{মন্তব্য}
+\assertlabel{\bookbangla@remindername}{মনত ৰাখিবা}
+\assertlabel{\bookbangla@diyname}{নিজে কৰা}
+\assertlabel{\bookbangla@hintname}{ইংগিত}
+\assertlabel{\exampleautorefname}{উদাহৰণ}
+\assertlabel{\exerciseautorefname}{সমস্যা}
+\assertlabel{\proofname}{প্ৰমাণ}
+\makeatother
+\mainmatter
+\chapter{গণনাৰ আৰম্ভণি}
+\begin{chapquote}{লেখক}
+সৰু প্ৰশ্নৰ পৰাই ডাঙৰ ধাৰণাৰ জন্ম হয়। A small question can open a new door.
+\end{chapquote}
+\begin{example}\label{as:example}
+আঠজন বন্ধুৰ ভিতৰত অন্তত দুজনৰ জন্ম একেটা বাৰত কিয় হয়?
+\end{example}
+\begin{solution}সপ্তাহত সাতটা বাৰ আছে।\end{solution}
+\begin{theorem}[কপৌৰ খোপ নীতি]\label{as:theorem}
+তিনিটা বস্তু দুটা খোপত ৰাখিলে কোনো এটা খোপত অন্তত দুটা বস্তু থাকে।
+\end{theorem}
+\begin{proof}প্ৰতিটো খোপত এটাকৈ ৰাখিলে মাত্ৰ দুটা বস্তু ৰাখিব পাৰি।\end{proof}
+\begin{remark}বস্তু আৰু খোপ আগতে চিনাক্ত কৰা।\end{remark}
+\begin{reminder}ৰ আৰু ৱ দুয়োটা আখৰেই দেখা যাব লাগিব।\end{reminder}
+\begin{diybox}
+\begin{smartlist}\item চাৰিটা বস্তু লৈ চেষ্টা কৰা।\end{smartlist}
+\end{diybox}
+\section{অনুশীলনী}
+\begin{exercise}[hint={মাহবোৰক খোপ বুলি ধৰা; $13>12$।}]\label{as:exercise}
+তেৰজন মানুহৰ ভিতৰত অন্তত দুজনৰ জন্ম একেটা মাহত হয়, দেখুওৱা।
+\end{exercise}
+\section{আৰু অনুশীলনী}
+\begin{exercise}\label{as:continued}এটা নতুন সমস্যা লিখা।\end{exercise}
+\autoref{as:example}, \autoref{as:theorem} আৰু \autoref{as:exercise} চোৱা।
+\chapterstyle{ruled}
+\chapter{পৰৱৰ্তী অধ্যায়}
+\begin{exercise}\label{as:reset}পৰৱৰ্তী অধ্যায়ৰ প্ৰথম সমস্যা।\end{exercise}
+\appendix
+% The 27th consonant differs between Bangla and Assamese (র / ৰ).
+\setcounter{chapter}{26}
+\chapter{পৰিশিষ্ট}
+\begin{exercise}\label{as:appendix}পৰিশিষ্টৰ এটা সমস্যা।\end{exercise}
+\autoref{as:reset} আৰু \autoref{as:appendix} চোৱা।
+\end{document}

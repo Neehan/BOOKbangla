@@ -1,0 +1,32 @@
+% Chapter styles; all are suitable for black-and-white printing.
+% Copyright 2026 Adib Hasan. LPPL 1.3c or later.
+\documentclass[oneside,openany]{bookbangla}
+\setbanglamainfont{Kalpurush}
+\title{অধ্যায়ের নকশা}
+\newcommand\samplechapter{%
+  \chapter{গণনার শুরু}
+  \section{পায়রার খোপ নীতি}
+  একটি পরিচিত ধারণা দিয়ে শুরু করি। বস্তু ও খোপ ঠিকভাবে চিহ্নিত করতে
+  পারলেই অনেক গণনার সমস্যার সমাধান সহজ হয়ে যায়।
+  \begin{example}
+    আটজন বন্ধুর মধ্যে অন্তত দুজনের জন্ম একই বারে কেন?
+  \end{example}
+  \begin{solution}সপ্তাহে সাতটি বার আছে।\end{solution}}
+\begin{document}
+\mainmatter
+\chapterstyle{classic}
+\samplechapter
+\begin{center}\verb|\chapterstyle{classic}|\end{center}
+\chapterstyle{default}
+\samplechapter
+\begin{center}\verb|\chapterstyle{default}|\end{center}
+\chapterstyle{modern}
+\samplechapter
+\begin{center}\verb|\chapterstyle{modern}|\end{center}
+\chapterstyle{minimal}
+\samplechapter
+\begin{center}\verb|\chapterstyle{minimal}|\end{center}
+\chapterstyle{ruled}
+\samplechapter
+\begin{center}\verb|\chapterstyle{ruled}|\end{center}
+\end{document}

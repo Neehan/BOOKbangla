@@ -1,0 +1,30 @@
+% Exercise splitting, nested math/list content, and proof end marks.
+\documentclass[oneside,openany]{bookbangla}
+\setbanglamainfont{Kalpurush}
+\title{বাক্সের পরীক্ষা}
+\newcount\repeatcount
+\newcommand\longpassage{%
+  \repeatcount=0
+  \loop
+    একটি দীর্ঘ অনুচ্ছেদ। বাংলা ও English লেখা পাশাপাশি থাকবে।
+    পরের পাতায় গেলেও বাক্সের লেখা ও সীমানা ঠিক থাকতে হবে।\par
+    \advance\repeatcount by1
+  \ifnum\repeatcount<24\repeat}
+\begin{document}
+\mainmatter
+\chapter{দীর্ঘ লেখা}
+\begin{example}[label=example:long]\longpassage\end{example}
+\begin{reminder}[বিশেষ কথা]\longpassage\end{reminder}
+\begin{diybox}\longpassage\end{diybox}
+\begin{exercise}[hint={এখানে $x^2+y^2$ এবং \textbf{একটি সূত্র} আছে।}]
+\label{exercise:long}
+\longpassage
+\begin{enumerate}\item প্রথম ধাপ।\item দ্বিতীয় ধাপ।\end{enumerate}
+\end{exercise}
+\begin{solution}[অন্য সমাধান]
+শেষে একটি সমীকরণ।
+\begin{equation*}1+1=2.\qedhere\end{equation*}
+\end{solution}
+\begin{proof}একটি প্রমাণ।\end{proof}
+\autoref{exercise:long}; \autoref{example:long}.
+\end{document}
