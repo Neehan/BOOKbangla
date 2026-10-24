@@ -2,16 +2,16 @@
 
 # BOOKbangla
 
-BOOKbangla grew out of the template I used to write *কম্বিনেটরিকসে হাতেখড়ি*
-(*Introduction to Combinatorics*): [Part 1](https://rokomari.com/book/180324/combinatoricse-hatekhori--1st-part)
-and [Part 2](https://www.rokomari.com/book/185613/combinatoricse-hatekhori--2nd-part).
-
 Write your Bangla or Assamese book using familiar LaTeX commands, with chapter headings,
 worked examples and exercises ready to use. Built on memoir and
 [LaTeXbangla](https://github.com/Neehan/LaTeXbangla), **BOOKbangla** lets you choose
 your fonts and adapt the layout to your book.
 
 Try the [Overleaf demo](https://www.overleaf.com/project/6adc6a64e207c9e858a5c4ba/share#f620335030ef2a824fafcc0cfb1f6e2548f3d2154965545f)—make a copy to start your own book.
+
+BOOKbangla grew out of the template I used to write *কম্বিনেটরিকসে হাতেখড়ি*
+(*Introduction to Combinatorics*): [Part 1](https://rokomari.com/book/180324/combinatoricse-hatekhori--1st-part)
+and [Part 2](https://www.rokomari.com/book/185613/combinatoricse-hatekhori--2nd-part).
 
 BOOKbangla is free to use under [LPPL 1.3c or later](LICENSE). If you use it to
 publish a book, I would appreciate an acknowledgement of BOOKbangla and its
