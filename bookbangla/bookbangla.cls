@@ -2,7 +2,7 @@
 % Copyright 2019, 2026 Adib Hasan <latexbangla@googlegroups.com>.
 % Distributed under LPPL 1.3c or later; see LICENSE.
 % Maintained by Adib Hasan. This work consists of the files listed in README.
-\NeedsTeXFormat{LaTeX2e}[2026-06-01]
+\NeedsTeXFormat{LaTeX2e}[2024-11-01]
 \ProvidesClass{bookbangla}[2026/10/24 v1.0.1 Bangla and Assamese books with memoir]
 
 % Forward language selection to LaTeXbangla; it remains the single source of
@@ -15,7 +15,7 @@
 \LoadClass{memoir}
 \RequirePackage{iftex}
 \RequireTUTeX
-\RequirePackage{latexbangla}[2026/10/23]
+\RequirePackage{latexbangla}[2026/10/24]
 \RequirePackage{amsmath,amssymb,amsthm}
 \RequirePackage{graphicx,xcolor,tikz}
 \RequirePackage{tcolorbox}

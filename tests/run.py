@@ -48,6 +48,8 @@ def run(command: list[str], cwd: Path, output: Path, env: dict[str, str]) -> Non
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--engine', choices=('xelatex', 'lualatex'), default='xelatex')
+    parser.add_argument('--build-dir', type=Path, default=ROOT / 'tests/build',
+                        help='Build root; each engine uses its own subdirectory')
     parser.add_argument('cases', nargs='*', help='Optional case names to rerun')
     args = parser.parse_args()
     # The trailing separator preserves the installed distribution search path.
@@ -64,7 +66,7 @@ def main() -> None:
     results = {}
     for name in args.cases or cases:
         source, bibliography = cases[name]
-        build = ROOT / 'tests/build' / args.engine / name
+        build = args.build_dir.resolve() / args.engine / name
         # A stale bibliography can contain commands removed from the source.
         # Each case owns this generated directory, so start it cleanly.
         if build.exists():
@@ -72,7 +74,8 @@ def main() -> None:
         build.mkdir(parents=True, exist_ok=True)
         # The manual writes live examples beside its output; the highlighter
         # must find those files through the same search path as TeX.
-        case_env = dict(env, TEXINPUTS=str(build) + ':' + env['TEXINPUTS'])
+        case_env = dict(env, TEXINPUTS=str(build) + ':' + str(source.parent)
+                        + ':' + env['TEXINPUTS'])
         # Include files need corresponding directories inside the output folder.
         (build / 'chap').mkdir(exist_ok=True)
         # Only the manual needs TeX Live's allowlisted syntax highlighter.
@@ -80,7 +83,8 @@ def main() -> None:
         command = [args.engine, '-interaction=nonstopmode', '-halt-on-error',
                    shell_policy, f'-output-directory={build}', str(source)]
         for pass_number in range(1, 4):
-            run(command, source.parent, build / f'pass-{pass_number}.stdout', case_env)
+            # Keep compiler/highlighter temporary files away from shipped PDFs.
+            run(command, build, build / f'pass-{pass_number}.stdout', case_env)
             if bibliography and pass_number == 1:
                 bib_env = dict(case_env, BIBINPUTS=str(source.parent) + ':')
                 run(['bibtex', source.stem], build, build / 'bibtex.stdout', bib_env)
@@ -89,6 +93,7 @@ def main() -> None:
             r'Missing character:|undefined references|undefined citations|'
             r'Font shape .*undefined|multiply defined|destination with the same|'
             r'ignoring duplicate destination|unreferenced destination|'
+            r'You have requested release|You have requested, on input line|'
             r'bookbangla-test-failed', line)]
         if failures:
             raise RuntimeError(f"{name}: " + '\n'.join(failures))
@@ -99,10 +104,10 @@ def main() -> None:
         pdf = build / f'{source.stem}.pdf'
         if not pdf.is_file():
             raise RuntimeError(f'{name}: no PDF produced')
-        results[name] = {'pdf': str(pdf.relative_to(ROOT)),
+        results[name] = {'pdf': os.path.relpath(pdf, ROOT),
                          'overfull_boxes': len(re.findall(r'Overfull \\[hv]box', log))}
         print(f'{args.engine}: {name}: passed', flush=True)
-    (ROOT / 'tests/build' / args.engine / 'results.json').write_text(
+    (args.build_dir.resolve() / args.engine / 'results.json').write_text(
         json.dumps(results, indent=2) + '\n')
 
 

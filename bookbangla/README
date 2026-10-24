@@ -9,7 +9,7 @@ Bangla is the default; select language=assamese for an Assamese book.
 Read bookbangla.pdf for usage and examples in English, Bangla and Assamese.
 Install the class with its code/ folder in your local TeX tree,
 or copy them beside your document. Compile with XeLaTeX or LuaLaTeX,
-with LaTeXbangla 2.0 or newer installed.
+using an updated TeX Live 2024 or later and LaTeXbangla 2.0.1 or newer.
 
 Copyright 2019, 2026 Adib Hasan.
 Distributed under the LaTeX Project Public License 1.3c or later.

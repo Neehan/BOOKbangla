@@ -243,6 +243,7 @@ TSWLatexianTemp*
 
 # Local notes, archives and generated test output
 CONTRACT.md
+/demo/
 .legacy-baseline/
 tests/build/
 .DS_Store

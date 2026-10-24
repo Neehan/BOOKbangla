@@ -16,7 +16,7 @@ TEXINPUTS=../../bookbangla//: xelatex main.tex
 TEXINPUTS=../../bookbangla//: xelatex main.tex
 ```
 
-Use `lualatex` in place of `xelatex` for LuaLaTeX. Install LaTeXbangla 2.0 or
+Use `lualatex` in place of `xelatex` for LuaLaTeX. Install LaTeXbangla 2.0.1 or
 newer, SolaimanLipi and Siyam Rupali. The example includes title material,
 contents, a complete combinatorics chapter, exercises and bibliography.
 

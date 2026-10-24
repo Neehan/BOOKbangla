@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Inspect rendered book PDFs after tests/run.py has passed on both engines."""
+import argparse
 from pathlib import Path
 import re
 import unicodedata
@@ -7,6 +8,9 @@ import unicodedata
 import fitz
 
 ROOT = Path(__file__).resolve().parent
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--build-dir', type=Path, default=ROOT / 'build')
+BUILD = parser.parse_args().build_dir.resolve()
 
 
 def check(condition: bool, message: str) -> None:
@@ -15,7 +19,7 @@ def check(condition: bool, message: str) -> None:
 
 
 for engine in ('xelatex', 'lualatex'):
-    build = ROOT / 'build' / engine
+    build = BUILD / engine
     with fitz.open(build / 'quotations/quotations.pdf') as document:
         spans = [span for page in document
                  for block in page.get_text('dict')['blocks'] if 'lines' in block
