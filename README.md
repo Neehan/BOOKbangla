@@ -1,4 +1,6 @@
-<p align="center"><img src="bookbangla/logo.png" alt="BOOKbangla" width="320"></p>
+<p align="center">
+  <img src="bookbangla/logo.png" alt="BOOKbangla" width="650">
+</p>
 
 # BOOKbangla
 
@@ -7,7 +9,7 @@ worked examples and exercises ready to use. Built on memoir and
 [LaTeXbangla](https://github.com/Neehan/LaTeXbangla), **BOOKbangla** lets you choose
 your fonts and adapt the layout to your book.
 
-Try the [Overleaf demo](https://www.overleaf.com/project/6adc6a64e207c9e858a5c4ba/share#f620335030ef2a824fafcc0cfb1f6e2548f3d2154965545f)—make a copy to start your own book.
+**For Overleaf,** make a copy of [this demo](https://www.overleaf.com/project/6adc6a64e207c9e858a5c4ba/share#f620335030ef2a824fafcc0cfb1f6e2548f3d2154965545f) and start your own book.
 
 BOOKbangla grew out of the template I used to write *কম্বিনেটরিকসে হাতেখড়ি*
 (*Introduction to Combinatorics*): [Part 1](https://rokomari.com/book/180324/combinatoricse-hatekhori--1st-part)
