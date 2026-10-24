@@ -45,7 +45,7 @@ or start with this short example:
 \end{document}
 ```
 
-Compile with **XeLaTeX or LuaLaTeX**, using an updated TeX Live 2024 or later and LaTeXbangla **2.0.1 or newer**.
+Compile with **XeLaTeX or LuaLaTeX**, using an updated TeX Live 2024 or later and LaTeXbangla **2.1 or newer**.
 Use any suitable Bangla font; Kalpurush is just one choice.
 For an Assamese book, use `\documentclass[language=assamese]{bookbangla}`;
 the font commands stay the same. Choose a font with ৰ and ৱ.

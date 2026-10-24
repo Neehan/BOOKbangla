@@ -3,7 +3,7 @@
 Use these checks when adapting BOOKbangla or contributing a change. They compile
 the example book and manual, then check numbering, references and font handling.
 
-With Python 3.10+, XeLaTeX, LuaLaTeX, BibTeX and LaTeXbangla 2.0.1 or newer
+With Python 3.10+, XeLaTeX, LuaLaTeX, BibTeX and LaTeXbangla 2.1 or newer
 installed, run from the repository root:
 
 ```sh
@@ -39,7 +39,7 @@ Run `python3 tests/review-pages.py` to generate a side-by-side engine comparison
 at `tests/build/page-review/index.html`. The spacing checks catch severe line
 collisions; visual review is still needed for subtler layout problems.
 
-Both engines are tested with LaTeXbangla 2.0.1 and these distributions:
+Test environments:
 
 | TeX Live | LaTeX | memoir |
 | --- | --- | --- |
