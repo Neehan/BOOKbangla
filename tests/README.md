@@ -13,8 +13,8 @@ python3 tests/run.py --engine lualatex
 
 Install Kalpurush, SolaimanLipi and Siyam Rupali for these examples. The English
 fonts come with TeX Live. Generated files stay in `tests/build/`.
-For additional PDF checks of fonts, hint placement, links and monochrome
-chapter designs:
+For additional PDF checks of fonts, bibliography accents, body-line spacing,
+hint placement, links and monochrome chapter designs:
 
 ```sh
 python3 -m pip install -r tests/requirements.txt
@@ -35,6 +35,9 @@ restricted shell escape.
 Inspect the PDFs after changes to typography, especially chapter headings,
 box page breaks, quotations and proof end marks. Overfull boxes are recorded
 in the build results to help locate layout problems.
+Run `python3 tests/review-pages.py` to generate a side-by-side engine comparison
+at `tests/build/page-review/index.html`. The spacing checks catch severe line
+collisions; visual review is still needed for subtler layout problems.
 
 Both engines are tested with LaTeXbangla 2.0.1 and these distributions:
 

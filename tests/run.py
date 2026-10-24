@@ -59,7 +59,8 @@ def main() -> None:
         'main': (ROOT / 'examples/bangla/main.tex', True),
         'chapter-styles': (ROOT / 'examples/chapter-styles.tex', False),
         'manual': (ROOT / 'bookbangla/bookbangla.tex', False),
-        **{p.stem: (p, False) for p in sorted((ROOT / 'tests/fixtures').glob('*.tex'))},
+        **{p.stem: (p, p.stem == 'bibliography')
+           for p in sorted((ROOT / 'tests/fixtures').glob('*.tex'))},
     }
     if unknown := set(args.cases) - cases.keys():
         parser.error(f"Unknown cases: {', '.join(sorted(unknown))}")

@@ -1,0 +1,21 @@
+\documentclass{bookbangla}
+\setbanglamainfont{Kalpurush}
+\usepackage[numbers]{natbib}
+\tracinglostchars=3
+% Run accent commands and equivalent Unicode through the actual BibTeX path.
+\begin{filecontents*}{accent-references.bib}
+@book{commands,
+  author={Paul Erd{\H{o}}s},
+  title={{Sober\'{o}n and Birkh\"{a}user}}, year={2000}}
+@book{composed,
+  author={Paul Erdős},
+  title={{Soberón and Birkhäuser}}, year={2001}}
+@book{decomposed,
+  author={Paul Erdős},
+  title={{Soberón and Birkhäuser}}, year={2002}}
+\end{filecontents*}
+\begin{document}
+বাংলা লেখার মধ্যে সূত্রের উল্লেখ \cite{commands,composed,decomposed}।
+\bibliographystyle{abbrv}
+\bibliography{accent-references}
+\end{document}
