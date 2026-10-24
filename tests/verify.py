@@ -16,6 +16,24 @@ def check(condition: bool, message: str) -> None:
 
 for engine in ('xelatex', 'lualatex'):
     build = ROOT / 'build' / engine
+    with fitz.open(build / 'quotations/quotations.pdf') as document:
+        spans = [span for page in document
+                 for block in page.get_text('dict')['blocks'] if 'lines' in block
+                 for line in block['lines'] for span in line['spans']]
+        # Check both sides of a script switch, then the attribution and body.
+        for word, font in (('Chorus', 'TeXGyreChorus-MediumItal'),
+                           ('Bold', 'TeXGyreChorus-MediumItal'),
+                           ('Default', 'TeXGyrePagella-Regular'),
+                           ('Body', 'TeXGyrePagella-Regular'),
+                           ('Ordinary', 'TeXGyrePagella-Italic')):
+            matching = [span for span in spans if word in span['text']]
+            check(bool(matching) and all(span['font'] == font for span in matching),
+                  f'{engine}: wrong quotation font for {word}')
+        quotation_size = next(span['size'] for span in spans if 'Chorus' in span['text'])
+        attribution_size = next(span['size'] for span in spans if 'Default' in span['text'])
+        check(abs(quotation_size / attribution_size - 1.05) < .001,
+              f'{engine}: quotation font should be scaled to 105%')
+
     with fitz.open(build / 'book/book.pdf') as document:
         links = [link for page in document for link in page.get_links()
                  if link['kind'] in (fitz.LINK_GOTO, fitz.LINK_NAMED)]
@@ -65,6 +83,9 @@ for engine in ('xelatex', 'lualatex'):
         text = unicodedata.normalize('NFC', ' '.join(page.get_text() for page in document))
         check('উদাহৰণ' in text and 'উদাহরণ' not in text,
               f'{engine}: Assamese example heading or reference was not translated')
+        check(any('TeXGyreChorus' in font[3]
+                  for page in document for font in page.get_fonts()),
+              f'{engine}: English quotation font lost in Assamese mode')
         links = [link for page in document for link in page.get_links()
                  if link['kind'] in (fitz.LINK_GOTO, fitz.LINK_NAMED)]
         check(len(links) >= 5 and all(0 <= link.get('page', -1) < len(document) for link in links),

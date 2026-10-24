@@ -69,9 +69,17 @@
 % Do not make our remark style the default for authors' later declarations.
 \theoremstyle{plain}
 
-% Inset quotations with a right-aligned attribution. LaTeXbangla handles
-% script switching, so quotations can mix Bangla and English.
-\newcommand*\bookbanglaquotefont{\itshape}
+% Chorus provides the calligraphic English quotation face. It has a single
+% italic design: map that face to NFSS italic too, so LaTeXbangla selects the
+% author's italic Bangla/Assamese face when the script changes. Synthetic bold
+% keeps ordinary \textbf usable in this otherwise single-weight family.
+\newfontfamily\bookbangla@englishquotefont[
+  Scale=1.05,
+  ItalicFont=*,
+  BoldFont=*,BoldFeatures={FakeBold=1.5},
+  BoldItalicFont=*,BoldItalicFeatures={FakeBold=1.5}]{TeX Gyre Chorus}
+\newcommand*\bookbanglaquotefont{\bookbangla@englishquotefont\itshape}
+% Inset quotations with a right-aligned attribution in the normal text font.
 \NewDocumentEnvironment{chapquote}{O{2em} m}
   {\begin{adjustwidth}{#1}{#1}\bookbanglaquotefont
    \def\bookbangla@quotationauthor{#2}\ignorespaces}

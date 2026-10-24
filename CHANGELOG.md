@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1
+
+- Use TeX Gyre Chorus for English chapter quotations; quotation fonts remain configurable.
+
 ## 1.0
 
 - First release of the memoir-based book class using LaTeXbangla 2.0.

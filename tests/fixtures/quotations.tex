@@ -1,0 +1,21 @@
+% Default quotation fonts, mixed-script styles and author overrides.
+\documentclass[oneside,openany]{bookbangla}
+\setmainfont{TeX Gyre Pagella}
+\setbanglamainfont{Kalpurush}
+\begin{document}
+\begin{chapquote}{Default Author}
+Chorus before বাংলা and Chorus after বাংলা।
+\textbf{Bold English এবং গাঢ় বাংলা।}
+\makeatletter
+\ifdefstring{\f@shape}{it}{}{%
+  \errmessage{bookbangla-test-failed: quotation italic shape lost}}
+\makeatother
+\end{chapquote}
+Body font restored after quotation.
+
+\bookbanglasetup{quote-font=\itshape}
+\begin{chapquote}{Override Author}
+Ordinary italic with বাংলা and English again.
+\end{chapquote}
+Body font restored after override.
+\end{document}

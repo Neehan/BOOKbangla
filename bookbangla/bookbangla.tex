@@ -29,7 +29,7 @@
 \definecolor{CodePaper}{HTML}{F4F6F8}
 \definecolor{ResultPaper}{HTML}{F0F8F4}
 \hypersetup{colorlinks,linkcolor=BanglaGreen,urlcolor=BanglaGreen,
-  citecolor=BanglaGreen,pdftitle={BOOKbangla 1.0: User guide},pdfauthor={Adib Hasan}}
+  citecolor=BanglaGreen,pdftitle={BOOKbangla 1.1: User guide},pdfauthor={Adib Hasan}}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{4pt plus 1pt}
 \setlength{\emergencystretch}{2em}
@@ -48,7 +48,7 @@
 \renewcommand*\thepage{\number\value{page}}
 \makepagestyle{manual}
 \makeoddhead{manual}{\small\sffamily\color{BanglaGreen}BOOKbangla}{}%
-  {\small\sffamily\color{BanglaInk}Version 1.0\quad User guide}
+  {\small\sffamily\color{BanglaInk}Version 1.1\quad User guide}
 \makeoddfoot{manual}{}{\small\thepage}{}
 \makeheadrule{manual}{\textwidth}{.3pt}
 \pagestyle{manual}
@@ -100,7 +100,7 @@
 {\Large\sffamily\color{BanglaGreen}Writing Bangla \& Assamese books with memoir}\\[5pt]
 {Adib Hasan}\\[2pt]
 {\small\href{https://groups.google.com/g/latexbangla}{\texttt{latexbangla@googlegroups.com}}}\\[3pt]
-{24 October 2026\quad\textcolor{BanglaRed}{\textbullet}\quad Version 1.0}
+{24 October 2026\quad\textcolor{BanglaRed}{\textbullet}\quad Version 1.1}
 \end{center}
 Follow this guide in \hyperref[manual:bangla]{বাংলা} or
 \hyperref[manual:assamese]{অসমীয়া}.
@@ -209,7 +209,7 @@ Setting & Meaning\\
 \texttt{accent-color} & Chapter accents (default dark gray)\\
 \texttt{box-frame-color} & Box borders and titles (default black)\\
 \texttt{box-background-color} & Box backgrounds (default white)\\
-\texttt{quote-font} & Font commands for quotation text (default italic)\\
+\texttt{quote-font} & Quotation font commands (default Chorus/italic)\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -337,7 +337,8 @@ the book. The same commands apply to the \texttt{example} counter.
 \end{chapquote}
 \end{examplepair}
 The optional argument sets both side indents; the author’s name follows
-the quotation. To choose an English quotation font:
+the quotation. English uses TeX Gyre Chorus at 105\% scale by default; Bangla and Assamese
+use the italic form of your chosen font. To choose another English quotation font:
 \begin{tcolorbox}[manualbox,title=\manualcodetitle]
 \begin{code}
 \newfontfamily\quoteface{TeX Gyre Cursor}
@@ -405,7 +406,7 @@ See \texttt{README} for the list of files.
 \renewcommand*\manualcodetitle{কোড}
 \renewcommand*\manualresulttitle{ফলাফল}
 \makeoddhead{manual}{\small\sffamily\color{BanglaGreen}BOOKbangla}{}%
-  {\small\sffamily\color{BanglaInk}সংস্করণ ১.০\quad ব্যবহার নির্দেশিকা}
+  {\small\sffamily\color{BanglaInk}সংস্করণ ১.১\quad ব্যবহার নির্দেশিকা}
 \hypertarget{guide-bangla}{}
 \phantomsection\label{manual:bangla}
 \pdfbookmark[0]{বাংলা ব্যবহার নির্দেশিকা}{manual-bangla}
@@ -415,7 +416,7 @@ See \texttt{README} for the list of files.
 {\Large\sffamily\color{BanglaGreen}memoir দিয়ে বাংলা ও অসমীয়া বই লেখা}\\[5pt]
 {আদীব হাসান}\\[2pt]
 {\small\href{https://groups.google.com/g/latexbangla}{\texttt{latexbangla@googlegroups.com}}}\\[3pt]
-{২৪ অক্টোবর ২০২৬\quad\textcolor{BanglaRed}{\textbullet}\quad সংস্করণ ১.০}
+{২৪ অক্টোবর ২০২৬\quad\textcolor{BanglaRed}{\textbullet}\quad সংস্করণ ১.১}
 \end{center}
 এই নির্দেশিকা \hyperref[manual:english]{ইংরেজি} ও
 \hyperref[manual:assamese]{অসমীয়াতেও} পড়তে পারেন।
@@ -525,7 +526,7 @@ memoir-এর অন্য নকশাগুলোও ব্যবহার ক
 \texttt{accent-color} & অধ্যায়ের নকশার রং (ডিফল্ট গাঢ় ধূসর)\\
 \texttt{box-frame-color} & বক্সের সীমানা ও শিরোনাম (ডিফল্ট কালো)\\
 \texttt{box-background-color} & বক্সের পটভূমি (ডিফল্ট সাদা)\\
-\texttt{quote-font} & উদ্ধৃতির ফন্টের কমান্ড (ডিফল্ট তির্যক)\\
+\texttt{quote-font} & উদ্ধৃতির ফন্টের কমান্ড (ডিফল্ট Chorus/তির্যক)\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -656,7 +657,8 @@ $3$ দিয়ে ভাগশেষ সমান, দেখাও।
 \end{chapquote}
 \end{examplepair}
 ঐচ্ছিক আর্গুমেন্ট দিয়ে উদ্ধৃতির দুই পাশের ফাঁকা জায়গা নির্ধারণ করা যায়;
-শেষে লেখকের নাম থাকে। ইংরেজি উদ্ধৃতির জন্য আলাদা ফন্ট বেছে নিতে:
+শেষে লেখকের নাম থাকে। ডিফল্টভাবে ইংরেজিতে ১০৫\% স্কেলে TeX Gyre Chorus এবং বাংলা ও
+অসমীয়ায় আপনার বেছে নেওয়া ফন্টের তির্যক রূপ ব্যবহৃত হয়। ইংরেজির ফন্ট বদলাতে:
 \begin{tcolorbox}[manualbox,title=\manualcodetitle]
 \begin{code}
 \newfontfamily\quoteface{TeX Gyre Cursor}
@@ -721,7 +723,7 @@ AMS-এর গণিত ও প্রমাণের সুবিধাগুল
 \renewcommand*\manualcodetitle{কোড}
 \renewcommand*\manualresulttitle{ফলাফল}
 \makeoddhead{manual}{\small\sffamily\color{BanglaGreen}BOOKbangla}{}%
-  {\small\sffamily\color{BanglaInk}সংস্কৰণ ১.০\quad ব্যৱহাৰ নিৰ্দেশিকা}
+  {\small\sffamily\color{BanglaInk}সংস্কৰণ ১.১\quad ব্যৱহাৰ নিৰ্দেশিকা}
 \hypertarget{guide-assamese}{}
 \phantomsection\label{manual:assamese}
 \pdfbookmark[0]{অসমীয়া ব্যৱহাৰ নিৰ্দেশিকা}{manual-assamese}
@@ -731,7 +733,7 @@ AMS-এর গণিত ও প্রমাণের সুবিধাগুল
 {\Large\sffamily\color{BanglaGreen}memoir-এৰে বাংলা আৰু অসমীয়া কিতাপ লিখক}\\[5pt]
 {আদীব হাসান}\\[2pt]
 {\small\href{https://groups.google.com/g/latexbangla}{\texttt{latexbangla@googlegroups.com}}}\\[3pt]
-{২৪ অক্টোবৰ ২০২৬\quad\textcolor{BanglaRed}{\textbullet}\quad সংস্কৰণ ১.০}
+{২৪ অক্টোবৰ ২০২৬\quad\textcolor{BanglaRed}{\textbullet}\quad সংস্কৰণ ১.১}
 \end{center}
 এই নিৰ্দেশিকা \hyperref[manual:english]{ইংৰাজী} আৰু
 \hyperref[manual:bangla]{বাংলাতো} পঢ়িব পাৰে।
@@ -841,7 +843,7 @@ memoir-ৰ আন নক্সাবোৰো ব্যৱহাৰ কৰিব
 \texttt{accent-color} & অধ্যায়ৰ নক্সাৰ ৰং (ডিফল্ট গাঢ় ধূসৰ)\\
 \texttt{box-frame-color} & বক্সৰ সীমা আৰু শিৰোনাম (ডিফল্ট ক'লা)\\
 \texttt{box-background-color} & বক্সৰ পটভূমি (ডিফল্ট বগা)\\
-\texttt{quote-font} & উদ্ধৃতিৰ ফণ্টৰ কমাণ্ড (ডিফল্ট হেলনীয়া)\\
+\texttt{quote-font} & উদ্ধৃতিৰ ফণ্টৰ কমাণ্ড (ডিফল্ট Chorus/হেলনীয়া)\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -972,7 +974,8 @@ $3$-ৰে ভাগ কৰিলে ভাগশেষ সমান হয়, 
 \end{chapquote}
 \end{examplepair}
 ঐচ্ছিক আৰ্গুমেণ্টেৰে উদ্ধৃতিৰ দুয়োফালৰ খালী ঠাই নিৰ্ধাৰণ কৰিব পাৰে;
-শেষত লেখকৰ নাম থাকে। ইংৰাজী উদ্ধৃতিৰ বাবে পৃথক ফণ্ট বাছিবলৈ:
+শেষত লেখকৰ নাম থাকে। ডিফল্ট হিচাপে ইংৰাজীত ১০৫\% স্কেলত TeX Gyre Chorus আৰু বাংলা বা
+অসমীয়াত আপোনাৰ বাছনিৰ ফণ্টৰ হেলনীয়া ৰূপ ব্যৱহাৰ হয়। ইংৰাজীৰ ফণ্ট সলনি কৰিবলৈ:
 \begin{tcolorbox}[manualbox,title=\manualcodetitle]
 \begin{code}
 \newfontfamily\quoteface{TeX Gyre Cursor}
