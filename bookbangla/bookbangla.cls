@@ -3,7 +3,7 @@
 % Distributed under LPPL 1.3c or later; see LICENSE.
 % Maintained by Adib Hasan. This work consists of the files listed in README.
 \NeedsTeXFormat{LaTeX2e}[2026-06-01]
-\ProvidesClass{bookbangla}[2026/10/24 v1.0 Bangla and Assamese books with memoir]
+\ProvidesClass{bookbangla}[2026/10/24 v1.0.1 Bangla and Assamese books with memoir]
 
 % Forward language selection to LaTeXbangla; it remains the single source of
 % language state. All other class options go to memoir.
