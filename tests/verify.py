@@ -91,6 +91,26 @@ for engine in ('xelatex', 'lualatex'):
         check(abs(quotation_size / attribution_size - 1.05) < .001,
               f'{engine}: quotation font should be scaled to 105%')
 
+    for language, example_name in (("bangla", "উদাহরণ"), ("assamese", "উদাহৰণ")):
+        name = "cleveref-" + language
+        log = (build / name / (name + '.log')).read_text()
+        check(f"BOOK-CREF-EXAMPLE: {example_name}" in log,
+              f'{engine}: {language} cleveref example name')
+        check('BOOK-CREF-EXERCISES: সমস্যাসমূহ' in log,
+              f'{engine}: {language} cleveref plural exercise name')
+        with fitz.open(build / name / (name + '.pdf')) as document:
+            rendered = re.sub(r"\s+", "", ''.join(page.get_text() for page in document))
+            examples = rendered.split('Examples:')[1].split('Problems:')[0]
+            check('১.১' in examples and '১.২' in examples,
+                  f'{engine}: {language} example references lost their counter')
+            capital = rendered.split('Capital:')[1].split('Mixed:')[0]
+            check('১.১' in capital, f'{engine}: {language} Cref lost the example counter')
+            for expected in ('১.১', '১.৩', '২.১', 'ক.১', 'problem'):
+                check(expected in rendered, f'{engine}: {language} cleveref lost {expected}')
+            links = [link for page in document for link in page.get_links()]
+            check(len(links) >= 10 and all(0 <= link.get('page', -1) < len(document) for link in links),
+                  f'{engine}: {language} cleveref links are broken')
+
     with fitz.open(build / 'book/book.pdf') as document:
         links = [link for page in document for link in page.get_links()
                  if link['kind'] in (fitz.LINK_GOTO, fitz.LINK_NAMED)]

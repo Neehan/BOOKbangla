@@ -52,8 +52,35 @@
   boxed title style={size=fbox,boxrule=.7pt,colframe=bookbanglaboxframe,arc=1mm},
   % tcolorbox creates the anchor in its phantom box. Restore the reference
   % value in the body too, so an ordinary \label agrees with its label key.
-  before upper={\protected@edef\@currentlabel{\p@example\theexample}},
+  % The phantom group also owns cleveref's type and sort key. Carry that
+  % complete label into the body rather than rebuilding cleveref's metadata.
+  phantom={\ifdefined\cref@currentlabel
+    \global\let\bookbangla@examplecreflabel\cref@currentlabel\fi},
+  before upper={\protected@edef\@currentlabel{\p@example\theexample}%
+    \def\@currentcounter{example}%
+    \ifdefined\bookbangla@examplecreflabel
+      \let\cref@currentlabel\bookbangla@examplecreflabel\fi},
   title={\bookbangla@examplename~\theexample},#1}
+
+% Register names only when cleveref is requested. Its preamble defaults are
+% separate from author overrides, so existing public names are left intact.
+\ExplSyntaxOn
+\bool_new:N \l__bookbangla_cref_capital_name_exists_bool
+\AddToHook{package/cleveref/after}[bookbangla/reference-names]
+  {
+    \clist_map_inline:nn {theorem,example,exercise}
+      {
+        \bool_set:Nn \l__bookbangla_cref_capital_name_exists_bool
+          {\cs_if_exist_p:c {Cref@#1@name}}
+        \cs_if_exist:cF {cref@#1@name}
+          {\crefname{#1}{\use:c {bookbangla@#1name}}
+            {\bookbangla@referenceplural{\use:c {bookbangla@#1name}}}}
+        \bool_if:NF \l__bookbangla_cref_capital_name_exists_bool
+          {\Crefname{#1}{\use:c {bookbangla@#1name}}
+            {\bookbangla@referenceplural{\use:c {bookbangla@#1name}}}}
+      }
+  }
+\ExplSyntaxOff
 
 % Use amsthm's proof/QED machinery; only its heading presentation changes.
 % A failed patch is reported, rather than silently losing the promised style.
