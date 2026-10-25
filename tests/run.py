@@ -15,6 +15,8 @@ ROOT = Path(__file__).resolve().parents[1]
 # Check the values actually written for references, not just the counter state.
 # This catches environment packages silently replacing a chapter formatter.
 EXPECTED_LABELS = {
+    'section-headings': {f'sec:{style}': '১.১'
+                         for style in ('classic', 'modern', 'minimal', 'ruled', 'default')},
     'paper-options': {'example:smallpaper': '১.১'},
     'manual': {'ex:weekdays': '১.১', 'ex:months': '১.১',
                'bn:weekdays': '১.১', 'bn:months': '১.১',
@@ -58,6 +60,7 @@ def main() -> None:
     cases = {
         'main': (ROOT / 'examples/bangla/main.tex', 'biber'),
         'chapter-styles': (ROOT / 'examples/chapter-styles.tex', None),
+        'section-styles': (ROOT / 'examples/section-styles.tex', None),
         'manual': (ROOT / 'bookbangla/bookbangla.tex', None),
         **{p.stem: (p, 'biber' if p.stem.startswith('bibliography-biber')
                    else 'bibtex' if p.stem == 'bibliography' else None)

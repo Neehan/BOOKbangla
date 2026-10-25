@@ -1,0 +1,36 @@
+% Section styles, independent of the chosen chapter design.
+% Copyright 2026 Adib Hasan. LPPL 1.3c or later.
+\documentclass[oneside,openany]{bookbangla}
+\setbanglamainfont{Kalpurush}
+\title{পরিচ্ছেদের নকশা}
+\newcommand\samplesection[1]{%
+  \clearpage
+  \bookbanglasetup{section-style=#1}
+  \setcounter{section}{0}
+  \section{পায়রার খোপ নীতি}
+  একটি পরিচিত ধারণা দিয়ে শুরু করি। বস্তু ও খোপ ঠিকভাবে চিহ্নিত করতে
+  পারলেই অনেক গণনার সমস্যার সমাধান সহজ হয়ে যায়। এই নীতির মূল কথা হলো,
+  খোপের চেয়ে বস্তু বেশি হলে কোনো একটি খোপে একাধিক বস্তু রাখতেই হবে।
+
+  সমস্যার ভাষা থেকে কোনগুলো বস্তু আর কোনগুলো খোপ তা বুঝে নেওয়াই প্রথম কাজ।
+  কখনো মানুষকে বস্তু আর জন্মদিনকে খোপ ধরা যায়; কখনো সংখ্যাগুলোকে তাদের
+  ভাগশেষ অনুযায়ী সাজাতে হয়। একই যুক্তি এভাবে নানা সমস্যায় কাজে লাগে।
+  \subsection{একটি উদাহরণ}
+  আটজন বন্ধুর মধ্যে অন্তত দুজনের জন্ম একই বারে, কারণ সপ্তাহে সাতটি বার আছে।
+  \section{গণনার নানা পদ্ধতি এবং পায়রার খোপ নীতির আরও কিছু প্রয়োগ}
+  একটি সমস্যার একাধিক সমাধান থাকতে পারে। প্রতিটি পদ্ধতিতে কী গোনা হচ্ছে,
+  আর একই বস্তু একাধিকবার গোনা হচ্ছে কি না, তা খেয়াল করা জরুরি। ছোট কয়েকটি
+  উদাহরণ নিয়ে পরীক্ষা করলে সাধারণ যুক্তিটি অনেক সময় স্পষ্ট হয়ে ওঠে।
+  \section*{মনে রাখার কথা}
+  শুধু উত্তর বের করাই শেষ কথা নয়। যুক্তির প্রতিটি ধাপ এমনভাবে লিখতে হবে,
+  যাতে পাঠক নিজেও তা অনুসরণ করতে পারেন।
+  \begin{center}\texttt{section-style=#1}\end{center}}
+\begin{document}
+\mainmatter
+\setcounter{chapter}{1}
+\samplesection{classic}
+\samplesection{modern}
+\samplesection{minimal}
+\samplesection{ruled}
+\samplesection{default}
+\end{document}

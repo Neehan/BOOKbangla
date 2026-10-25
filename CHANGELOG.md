@@ -1,7 +1,8 @@
 # Changelog
 
-## 1.0.1
+## 1.1
 
+- Refine chapter designs and add four section styles, with memoir defaults available.
 - Keep running heads and page numbers readable in English bibliographies.
 - Add translated `cleveref` references for theorems, examples and problems.
 - Support updated TeX Live 2024 and later, using LaTeXbangla 2.1 or newer.

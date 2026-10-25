@@ -14,7 +14,7 @@ python3 tests/run.py --engine lualatex
 Install Kalpurush, SolaimanLipi and Siyam Rupali for these examples. The English
 fonts come with TeX Live. Generated files stay in `tests/build/`.
 For additional PDF checks of fonts, bibliography accents, body-line spacing,
-hint placement, links and monochrome chapter designs:
+hint placement, links and monochrome heading designs:
 
 ```sh
 python3 -m pip install -r tests/requirements.txt
@@ -27,7 +27,7 @@ To rerun selected cases, append their names:
 python3 tests/run.py book overrides boxes
 ```
 
-The cases cover chapter designs, front matter, appendices, theorems, long boxes,
+The cases cover chapter and section designs, front matter, appendices, theorems, long boxes,
 nested lists, paper-size options, Assamese labels and custom memoir settings.
 The manual also runs its displayed examples in all three guides; its syntax highlighting uses minted with
 restricted shell escape.

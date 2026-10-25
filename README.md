@@ -4,10 +4,12 @@
 
 # BOOKbangla
 
-Write your Bangla or Assamese book using familiar LaTeX commands, with chapter headings,
-worked examples and exercises ready to use. Built on memoir and
-[LaTeXbangla](https://github.com/Neehan/LaTeXbangla), **BOOKbangla** lets you choose
-your fonts and adapt the layout to your book.
+**BOOKbangla** is a document class for writing high-quality books in Bangla or
+Assamese. It builds on memoir, with chapter and section designs, worked examples
+and exercises ready to use. All of memoir's commands remain available for
+customization. [LaTeXbangla](https://github.com/Neehan/LaTeXbangla) handles the
+language, fonts and numbering; BOOKbangla brings these together with the book's
+layout so you can focus on writing.
 
 **For Overleaf,** make a copy of [this demo](https://www.overleaf.com/project/6adc6a64e207c9e858a5c4ba/share#f620335030ef2a824fafcc0cfb1f6e2548f3d2154965545f) and start your own book.
 
@@ -19,7 +21,7 @@ BOOKbangla is free to use under [LPPL 1.3c or later](LICENSE). If you use it to
 publish a book, I would appreciate an acknowledgement of BOOKbangla and its
 author, Adib Hasan. :))
 
-See the [example book](examples/bangla/main.pdf) and [chapter designs](examples/chapter-styles.pdf),
+See the [example book](examples/bangla/main.pdf), [chapter designs](examples/chapter-styles.pdf) and [section designs](examples/section-styles.pdf),
 or start with this short example:
 
 ```latex
@@ -50,7 +52,7 @@ Use any suitable Bangla font; Kalpurush is just one choice.
 For an Assamese book, use `\documentclass[language=assamese]{bookbangla}`;
 the font commands stay the same. Choose a font with ৰ and ৱ.
 
-- Classic, modern, minimal and ruled chapter designs; memoir’s default remains available.
+- Classic, modern, minimal and ruled chapter and section designs; memoir’s default remains available.
 - Numbered examples, theorems and problems, optional hints, solutions and reference links.
 - “নিজে করো” and “মনে রাখবে” boxes, chapter quotations and configurable lists.
 - Your choice of fonts and bibliography. Use `\bookbanglasetup` for the class's

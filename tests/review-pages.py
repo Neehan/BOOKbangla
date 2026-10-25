@@ -20,7 +20,8 @@ html = ['<!doctype html><meta charset="utf-8"><title>BOOKbangla page review</tit
         '<p>Compare line spacing, page breaks, accents and font choices. '
         'Click a page to inspect it at full resolution.</p>']
 for case, filename in (('main', 'main'), ('boxes', 'boxes'),
-                       ('chapter-styles', 'chapter-styles'), ('book', 'book'),
+                       ('chapter-styles', 'chapter-styles'),
+                       ('section-styles', 'section-styles'), ('book', 'book'),
                        ('bibliography', 'bibliography')):
     documents = {engine: fitz.open(build / engine / case / f'{filename}.pdf')
                  for engine in ('xelatex', 'lualatex')}

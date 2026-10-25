@@ -60,17 +60,21 @@ for engine in ('xelatex', 'lualatex'):
     build = BUILD / engine
     with fitz.open(build / 'bibliography/bibliography.pdf') as document:
         check_bibliography(document, engine, {'Erdős': 3, 'Soberón': 3, 'Birkhäuser': 3})
-    for name, year in (('bibliography-biber', '২০১৯'),
-                       ('bibliography-biber-english', '2019')):
+    for name in ('bibliography-biber', 'bibliography-biber-english'):
         with fitz.open(build / name / f'{name}.pdf') as document:
             check_bibliography(document, engine,
                                {'Erdős': 1, 'Soberón': 1, 'Birkhäuser': 2})
             rendered = ' '.join(page.get_text() for page in document)
-            check(year in rendered and '[১]' in rendered,
-                  f'{engine}: {name} separates entry language from label numbering')
+            # Both fixtures use Western digits in the same bibliography data.
+            check('2019' in rendered and '২০১৯' not in rendered
+                  and '2nd' in rendered and '[১]' in rendered,
+                  f'{engine}: {name} preserves input digits independently of citation labels')
             if name.endswith('-english'):
-                check('২০১৯' not in rendered and '2nd' in rendered,
-                      f'{engine}: English entries restore years and ordinal formats')
+                check('and' in rendered and 'আৰু' not in rendered,
+                      f'{engine}: English entries retain English bibliography strings')
+            else:
+                check('আৰু' in rendered,
+                      f'{engine}: Assamese entries use translated bibliography strings')
     with fitz.open(build / 'main/main.pdf') as document:
         # The example abbreviates given names, but
         # surnames, publisher accents and Western numeric labels must survive.
@@ -149,16 +153,24 @@ for engine in ('xelatex', 'lualatex'):
         check(any('Cursor' in font and 'Italic' in font for font in fonts),
               f'{engine}: quotation font override lost')
 
-    with fitz.open(build / 'chapter-styles/chapter-styles.pdf') as document:
-        check(len(document) == 5, f'{engine}: expected one page per chapter design')
-        # Default examples must remain suitable for monochrome printing.
-        for page in document:
-            for drawing in page.get_drawings():
-                for key in ('color', 'fill'):
-                    color = drawing.get(key)
-                    if color and len(color) == 3:
-                        check(max(color) - min(color) < .001,
-                              f'{engine}: a chapter design introduced colour')
+    for kind in ('chapter', 'section'):
+        with fitz.open(build / f'{kind}-styles/{kind}-styles.pdf') as document:
+            check(len(document) == 5, f'{engine}: expected one page per {kind} design')
+            # Default examples must remain suitable for monochrome printing.
+            for page in document:
+                for drawing in page.get_drawings():
+                    for key in ('color', 'fill'):
+                        color = drawing.get(key)
+                        if color and len(color) == 3:
+                            check(max(color) - min(color) < .001,
+                                  f'{engine}: a {kind} design introduced colour')
+    with fitz.open(build / 'section-headings/section-headings.pdf') as document:
+        text = ' '.join(page.get_text() for page in document)
+        check('CUSTOM:' in text, f'{engine}: later memoir section override lost')
+        check(len(document) == 6, f'{engine}: section headings displaced body text')
+        contents = document[0].get_text()
+        check('§' not in contents and 'CUSTOM:' not in contents,
+              f'{engine}: heading decoration leaked into the contents')
     with fitz.open(build / 'chapter-headings/chapter-headings.pdf') as document:
         check(len(document) == 8, f'{engine}: chapter headings displaced the body text')
         for page in document:

@@ -3,7 +3,7 @@
 % Distributed under LPPL 1.3c or later; see LICENSE.
 % Maintained by Adib Hasan. This work consists of the files listed in README.
 \NeedsTeXFormat{LaTeX2e}[2024-11-01]
-\ProvidesClass{bookbangla}[2026/10/24 v1.0.1 Bangla and Assamese books with memoir]
+\ProvidesClass{bookbangla}[2026/10/25 v1.1 Bangla and Assamese books with memoir]
 
 % Forward language selection to LaTeXbangla; it remains the single source of
 % language state. All other class options go to memoir.
@@ -43,6 +43,7 @@
   {\bookbangla@loadmodule{labels-bangla}}
 \bookbangla@loadmodule{layout}
 \bookbangla@loadmodule{chapters}
+\bookbangla@loadmodule{sections}
 \bookbangla@loadmodule{environments}
 
 % One interface for our own design choices; memoir remains the interface for
@@ -50,6 +51,8 @@
 \ExplSyntaxOn
 \keys_define:nn {bookbangla}
   {
+    section-style .choices:nn = {classic,modern,minimal,ruled,default}
+      {\bookbangla@sectionstyle{\l_keys_choice_tl}},
     accent-color .code:n = {\colorlet{bookbanglaaccent}{#1}},
     box-frame-color .code:n = {\colorlet{bookbanglaboxframe}{#1}},
     box-background-color .code:n = {\colorlet{bookbanglaboxbackground}{#1}},

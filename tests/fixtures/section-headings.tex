@@ -1,0 +1,36 @@
+% Styles must leave references and contents plain and honor later memoir hooks.
+\documentclass[a5paper,oneside,openany]{bookbangla}
+\setbanglamainfont{Kalpurush}
+\newcommand\testsectionstyle[1]{%
+  \clearpage
+  \bookbanglasetup{section-style=#1}
+  \setcounter{section}{0}
+  \section[Short title]{গণনার নানা পদ্ধতি এবং পায়রার খোপ নীতির প্রয়োগ}
+  \label{sec:#1}
+  Heading followed by body text. See \ref{sec:#1}.
+  \subsection{পরের ধাপ}
+  The subsection keeps its ordinary format.
+  \section*{একটি দীর্ঘ নম্বরহীন পরিচ্ছেদ এবং তার নিচের লেখা}
+  Unnumbered heading followed by body text.}
+\begin{document}
+\mainmatter
+\setcounter{chapter}{1}
+\tableofcontents*
+\testsectionstyle{modern}
+\testsectionstyle{ruled}
+\testsectionstyle{minimal}
+\testsectionstyle{classic}
+\testsectionstyle{default}
+\makeatletter
+\ifx\secheadstyle\bookbangla@memoirsecheadstyle\else
+  \errmessage{bookbangla-test-failed: memoir section font not restored}
+\fi
+\ifx\@seccntformat\bookbangla@memoirsecnumformat\else
+  \errmessage{bookbangla-test-failed: memoir section numbers not restored}
+\fi
+\makeatother
+\setsecheadstyle{\large\itshape}
+\setsecnumformat{CUSTOM: \csname the#1\endcsname\quad}
+\section{লেখকের পছন্দ}
+Later memoir commands take precedence.
+\end{document}

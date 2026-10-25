@@ -28,12 +28,6 @@
 \colorlet{bookbanglaboxframe}{black}
 \colorlet{bookbanglaboxbackground}{white}
 
-% Memoir exposes per-level number formatting. Do not add § to \thesection:
-% that would also decorate references and PDF bookmarks unintentionally.
-\setsecheadstyle{\raggedright\Large\bfseries}
-\setsecnumformat{%
-  \ifstrequal{#1}{section}{\S\,\csname thesection\endcsname\hspace{.5em}}%
-    {\csname the#1\endcsname\quad}}
 \renewcommand*\cftchapteraftersnum{.}
 
 % Memoir retains \thetitle after \maketitle, unlike LaTeX's temporary \@title.

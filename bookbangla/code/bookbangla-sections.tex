@@ -1,0 +1,57 @@
+% Section designs using memoir's public formatting hooks.
+% Copyright 2026 Adib Hasan. Part of BOOKbangla; LPPL 1.3c or later.
+
+% Restore the loaded memoir defaults when selecting default or switching styles.
+\NewCommandCopy\bookbangla@memoirsecheadstyle\secheadstyle
+\NewCommandCopy\bookbangla@memoirsecnumformat\@seccntformat
+\newcommand*\bookbangla@sectionstyle[1]{%
+  \let\secheadstyle\bookbangla@memoirsecheadstyle
+  \let\@seccntformat\bookbangla@memoirsecnumformat
+  \csname bookbangla@section@#1\endcsname}
+
+% Keep section titles at memoir's Large size and leave lower heading levels alone.
+% Decorate only section headings; references, contents and lower levels retain
+% their ordinary numbers. The format is expanded by memoir before typesetting.
+\newcommand*\bookbangla@sectionnumber[1]{%
+  \setsecnumformat{%
+    \ifstrequal{##1}{section}{#1}%
+      {\bookbangla@memoirsecnumformat{##1}}}}
+\newcommand*\bookbangla@section@classic{%
+  \setsecheadstyle{\raggedright\Large\bfseries}%
+  \bookbangla@sectionnumber{\S\,\thesection\hspace{.5em}}}
+% Hanging numerals and a fine divider give modern a clear textbook hierarchy.
+\newcommand*\bookbangla@section@modern{%
+  \setsecheadstyle{\raggedright\Large\bfseries}%
+  \bookbangla@sectionnumber{\bookbangla@modernsectionnumber}}
+\DeclareRobustCommand\bookbangla@modernsectionnumber{%
+  {\color{bookbanglaaccent}\Large\bfseries
+    % Enlarge only the chapter component, keeping the author's numbering format.
+    \let\bookbangla@sectionchapter\thechapter
+    \renewcommand*\thechapter{\scalebox{1.4}{\bookbangla@sectionchapter}}%
+    \thesection}%
+  \hspace{.65em}{\color{bookbanglaaccent}\vrule width.6pt height1.1em depth.25em}%
+  \hspace{.65em}}
+
+% Centered crossheads follow the tradition represented by memoir's crosshead
+% and Dowding styles. Use ordinary Bangla letterforms rather than small caps.
+\newcommand*\bookbangla@section@minimal{%
+  \setsecheadstyle{\centering\Large\mdseries\bookbangla@centeredsection}%
+  \bookbangla@sectionnumber{\bookbangla@centeredsectionnumber}}
+\DeclareRobustCommand\bookbangla@centeredsectionnumber{%
+  {\color{bookbanglaaccent}\thesection}\nobreak\hspace{.65em}}
+\newcommand\bookbangla@centeredsection[1]{%
+  \sethangfrom{\noindent##1}%
+  #1}
+
+% A short heavy lead-in joins a hairline above the title. This uses the same
+% rule-and-type vocabulary as titlesec's examples, through memoir's own hooks.
+\newcommand*\bookbangla@section@ruled{%
+  \setsecheadstyle{\raggedright\Large\bfseries\bookbangla@ruledsection}}
+\newcommand\bookbangla@ruledsection[1]{%
+  \noindent\hbox to\linewidth{\color{bookbanglaaccent}%
+    \vrule width2em height1.6pt depth0pt\leaders\hrule height.4pt\hfill}%
+  \par\nobreak\vskip6pt
+  #1}
+\newcommand*\bookbangla@section@default{}
+\bookbangla@sectionstyle{classic}
+\endinput
