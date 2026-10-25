@@ -56,17 +56,18 @@ def main() -> None:
     env = dict(os.environ)
     env['TEXINPUTS'] = str(ROOT / 'bookbangla') + '//:' + env.get('TEXINPUTS', '')
     cases = {
-        'main': (ROOT / 'examples/bangla/main.tex', True),
-        'chapter-styles': (ROOT / 'examples/chapter-styles.tex', False),
-        'manual': (ROOT / 'bookbangla/bookbangla.tex', False),
-        **{p.stem: (p, p.stem == 'bibliography')
+        'main': (ROOT / 'examples/bangla/main.tex', 'biber'),
+        'chapter-styles': (ROOT / 'examples/chapter-styles.tex', None),
+        'manual': (ROOT / 'bookbangla/bookbangla.tex', None),
+        **{p.stem: (p, 'biber' if p.stem.startswith('bibliography-biber')
+                   else 'bibtex' if p.stem == 'bibliography' else None)
            for p in sorted((ROOT / 'tests/fixtures').glob('*.tex'))},
     }
     if unknown := set(args.cases) - cases.keys():
         parser.error(f"Unknown cases: {', '.join(sorted(unknown))}")
     results = {}
     for name in args.cases or cases:
-        source, bibliography = cases[name]
+        source, backend = cases[name]
         build = args.build_dir.resolve() / args.engine / name
         # A stale bibliography can contain commands removed from the source.
         # Each case owns this generated directory, so start it cleanly.
@@ -86,9 +87,10 @@ def main() -> None:
         for pass_number in range(1, 4):
             # Keep compiler/highlighter temporary files away from shipped PDFs.
             run(command, build, build / f'pass-{pass_number}.stdout', case_env)
-            if bibliography and pass_number == 1:
-                bib_env = dict(case_env, BIBINPUTS=str(source.parent) + ':')
-                run(['bibtex', source.stem], build, build / 'bibtex.stdout', bib_env)
+            if backend and pass_number == 1:
+                bib_env = dict(case_env, BIBINPUTS=str(source.parent) + ':'
+                               + str(ROOT / 'examples/bangla') + ':')
+                run([backend, source.stem], build, build / f'{backend}.stdout', bib_env)
         log = (build / f'{source.stem}.log').read_text(errors='replace')
         failures = [line for line in log.splitlines() if re.search(
             r'Missing character:|undefined references|undefined citations|'

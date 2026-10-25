@@ -1,0 +1,14 @@
+\documentclass[language=assamese]{bookbangla}
+\setbanglamainfont{Kalpurush}
+\setotherlanguage{english}
+\ifdefined\EnglishBibliography
+  \PassOptionsToPackage{language=english,autolang=other}{biblatex}
+\fi
+\usepackage[backend=biber,style=numeric,giveninits=true,maxbibnames=99]{biblatex}
+\addbibresource{bookbib.bib}
+\title{Bibliography}
+\begin{document}
+\sloppy
+\nocite{*}
+\printbibliography
+\end{document}

@@ -3,7 +3,7 @@
 Use these checks when adapting BOOKbangla or contributing a change. They compile
 the example book and manual, then check numbering, references and font handling.
 
-With Python 3.10+, XeLaTeX, LuaLaTeX, BibTeX and LaTeXbangla 2.1 or newer
+With Python 3.10+, XeLaTeX, LuaLaTeX, BibTeX, Biber and LaTeXbangla 2.1 or newer
 installed, run from the repository root:
 
 ```sh

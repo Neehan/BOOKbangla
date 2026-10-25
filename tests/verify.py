@@ -60,13 +60,28 @@ for engine in ('xelatex', 'lualatex'):
     build = BUILD / engine
     with fitz.open(build / 'bibliography/bibliography.pdf') as document:
         check_bibliography(document, engine, {'Erdős': 3, 'Soberón': 3, 'Birkhäuser': 3})
+    for name, year in (('bibliography-biber', '২০১৯'),
+                       ('bibliography-biber-english', '2019')):
+        with fitz.open(build / name / f'{name}.pdf') as document:
+            check_bibliography(document, engine,
+                               {'Erdős': 1, 'Soberón': 1, 'Birkhäuser': 2})
+            rendered = ' '.join(page.get_text() for page in document)
+            check(year in rendered and '[১]' in rendered,
+                  f'{engine}: {name} separates entry language from label numbering')
+            if name.endswith('-english'):
+                check('২০১৯' not in rendered and '2nd' in rendered,
+                      f'{engine}: English entries restore years and ordinal formats')
     with fitz.open(build / 'main/main.pdf') as document:
-        # The example uses abbrv.bst: full first names become initials, but
+        # The example abbreviates given names, but
         # surnames, publisher accents and Western numeric labels must survive.
         bibliography_start = next(i for i, page in enumerate(document)
                                   if '[1]' in page.get_text() and 'Andreescu' in page.get_text())
         check_bibliography(list(document)[bibliography_start:], engine,
                            {'Erdős': 1, 'Soberón': 1, 'Birkhäuser': 2})
+        bibliography_text = ' '.join(page.get_text() for page in list(document)[bibliography_start:])
+        check('Bibliography' in bibliography_text and 'and' in bibliography_text
+              and 'এবং' not in bibliography_text and 'সংস্করণ' not in bibliography_text,
+              f'{engine}: the example bibliography should remain in English')
         text = ' '.join(page.get_text() for page in document)
         check('[8]' in text and '[৮]' not in text,
               f'{engine}: example bibliography should retain Western labels')

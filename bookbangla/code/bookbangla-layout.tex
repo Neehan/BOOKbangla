@@ -37,9 +37,17 @@
 \renewcommand*\cftchapteraftersnum{.}
 
 % Memoir retains \thetitle after \maketitle, unlike LaTeX's temporary \@title.
+% A page can ship out while a bibliography entry is in English. Running heads
+% and page numbers still belong to the book's language.
+\newcommand*\bookbangla@runningtext[1]{%
+  \foreignlanguage{\mainlanguagename}{#1}}
 \makepagestyle{bookbangla}
-\makeevenhead{bookbangla}{\thepage}{}{\itshape\thetitle}
-\makeoddhead{bookbangla}{\itshape\rightmark}{}{\thepage}
+\makeevenhead{bookbangla}{\bookbangla@runningtext{\thepage}}{}%
+  {\bookbangla@runningtext{\itshape\thetitle}}
+\makeoddhead{bookbangla}{\bookbangla@runningtext{\itshape\rightmark}}{}%
+  {\bookbangla@runningtext{\thepage}}
+\makeevenfoot{plain}{}{\bookbangla@runningtext{\thepage}}{}
+\makeoddfoot{plain}{}{\bookbangla@runningtext{\thepage}}{}
 \makepsmarks{bookbangla}{%
   \nouppercaseheads
   \createmark{section}{right}{shownumber}{}{\space}}

@@ -1,13 +1,17 @@
 % !TEX program = xelatex
 % Use an updated TeX Live 2024 or later with LaTeXbangla 2.1 or newer.
-% Compile with XeLaTeX or LuaLaTeX, then BibTeX, then LaTeX twice more.
+% Compile with XeLaTeX or LuaLaTeX, then Biber, then LaTeX twice more.
 % Copyright 2019, 2026 Adib Hasan. LPPL 1.3c or later.
 \documentclass[12pt,twoside]{bookbangla}
 \setbanglamainfont{SolaimanLipi}
 \setbanglamonofont{Siyam Rupali}
 
 % Choose the bibliography style and database for this book.
-\usepackage[sort,square,numbers]{natbib}
+\setotherlanguage{english}
+\usepackage[backend=biber,style=numeric,sorting=nyt,giveninits=true,
+  maxbibnames=99,language=english,autolang=other]{biblatex}
+\addbibresource{bookbib.bib}
+\AtBeginBibliography{\sloppy}
 \usepackage{hhline,placeins,multicol,longtable}
 \usepackage{custom}
 % Give long mixed-script paragraphs a little extra line-breaking flexibility.
@@ -20,9 +24,9 @@
 
 \begin{document}
 % Keep citations and bibliography labels in Western digits.
-% Apply these natbib formats after LaTeXbangla's document-start setup.
-\renewcommand{\citenumfont}[1]{#1}
-\renewcommand{\bibnumfmt}[1]{[#1]}
+% Apply these formats after LaTeXbangla's document-start setup.
+\DeclareFieldFormat{labelnumber}{#1}
+\DeclareFieldFormat{labelnumberwidth}{\mkbibbrackets{#1}}
 \frontmatter
 \include{titlepage}
 \tableofcontents*
@@ -30,6 +34,5 @@
 \include{chap/pigeonhole_principle}
 \backmatter
 \nocite{*}
-\bibliographystyle{abbrv}
-\bibliography{bookbib}
+\printbibliography[heading=bibintoc,title=Bibliography]
 \end{document}

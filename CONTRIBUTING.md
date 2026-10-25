@@ -11,7 +11,7 @@ it. To build without installing this class, run from `examples/bangla/`:
 
 ```sh
 TEXINPUTS=../../bookbangla//: xelatex main.tex
-bibtex main
+biber main
 TEXINPUTS=../../bookbangla//: xelatex main.tex
 TEXINPUTS=../../bookbangla//: xelatex main.tex
 ```
